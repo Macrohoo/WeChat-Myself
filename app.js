@@ -1,6 +1,7 @@
 // app.js
 App({
   onLaunch() {
+    var that = this
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -34,27 +35,22 @@ App({
         content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
       })
     }
-  },
-  getUserInfo: function(func) {
-    var that = this
-    if(this.globalData.userInfo) {
-      //如果这个参数func类型为函数，就执行名为func这个函数
-      typeof func == "function" && func(this.globalData.userInfo)
-    } else {
-      //调用微信登录
-      wx.login({
-        success: function(res) {
-          wx.getUserInfo({
-            success: function(res) {
-              that.globalData.userInfo = res.userInfo
-              typeof func == "function" && func(this.globalData.userInfo)
-            }
-          })
-        }
-      })
-    }
+    //微信登录写在这里的话，那么小程序一打开就会呼出登录
+    wx.login({
+      success: function(res) {
+        wx.setStorageSync('wxLoginInfo', res)
+        console.log({haha : wx.getStorageSync('wxLoginInfo')})
+        wx.getUserInfo({
+          success: function(res) {
+            that.globalData.userInfo = res.userInfo
+            that.globalData.hasUserInfo = true
+          }
+        })
+      }
+    })    
   },
   globalData: {
+    hasUserInfo: false,
     userInfo: null,
     openid: "",
     isGetUserInfo: false,

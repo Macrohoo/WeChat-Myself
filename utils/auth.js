@@ -1,3 +1,5 @@
+//var app = getApp()
+
 const Auth = {}
 
 
@@ -27,7 +29,28 @@ Auth.checkLogin = function(appPage) {
     })
 }
 
+function getPageInstance() {
+    var pages = getCurrentPages()
+    return pages[pages.length -1]
+}
 
+//手动简易中间件路由守卫
+Auth.pageLoginCheck = function(pageObj) {
+    if(pageObj.onLoad) {
+        let _onLoad = pageObj.onLoad
+        pageObj.onLoad = function (options) {
+            if(wx.getStorageSync('token')) {
+                let currentInstance = getPageInstance();
+                _onLoad.call(currentInstance, options)
+            } else {
+                wx.redirectTo({
+                    url: '/pages/user/user'
+                })
+            }
+        }
+    }
+    return pageObj
+}
 
 //wxLogin登录方法换取openid换取三要素之一的js_code
 Auth.wxLogin = function() {
