@@ -1,5 +1,7 @@
 // pages/user/user.js
 var app = getApp()
+import {getRequest, postRequest} from '../../utils/wxAjax'
+const Api = require('../../utils/api')
 //const Auth = require('../../utils/auth')
 Page({
 
@@ -17,14 +19,26 @@ Page({
     wx.login({
       success: function(res) {
         wx.setStorageSync('wxLoginInfo', res)
+        //console.log({haha : wx.getStorageSync('wxLoginInfo')})
         wx.getUserInfo({
           success: function(res) {
             app.globalData.userInfo = res.userInfo
+            app.globalData.hasUserInfo = true
             that.setData({
               userInfo: res.userInfo,
               hasUserInfo: true
+            })            
+            postRequest(Api.fetchOpenid(), {js_code: wx.getStorageSync('wxLoginInfo').code}).then(apires => {
+              app.globalData.openid = apires.data.openid
+              postRequest(Api.fetchWxLogin(), {openid: app.globalData.openid}).then(api2res => {
+                //console.log(api2res)
+                wx.setStorageSync('token', api2res.data.data.access_token)
+                //console.log(wx.getStorageSync('token'))
+                getRequest(Api.fetchGetUserInfo(), null, wx.getStorageSync('token')).then(api3res => {
+                  console.log(api3res)
+                })
+              })
             })
-            console.log(that.data)
           }
         })
       }
