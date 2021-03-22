@@ -14,26 +14,28 @@ function wxPromisify(fn) {
 
 
 
-export function getRequest() {
+export function getRequest(url, data, token) {
     var request = wxPromisify(wx.request)
     return request({
         url: url,
         method: 'Get',
         data: data,
-        Headers: {
-            'Content-Type': 'application/json'
+        header: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
         }
     })
 }
 
-export function postRequest() {
+export function postRequest(url, data, token) {
     var request = wxPromisify(wx.request)
     return request({
         url: url,
         method: 'POST',
         data: data,
         header: {
-          "content-type": "application/json"
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`
         }        
     })
 }
