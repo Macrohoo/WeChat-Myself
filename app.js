@@ -53,7 +53,7 @@ App({
                 wx.setStorageSync('token', api2res.data.data.access_token)
                 //console.log(wx.getStorageSync('token'))
                 getRequest(Api.fetchGetUserInfo(), null, wx.getStorageSync('token')).then(api3res => {
-                  console.log(api3res)
+                  that.globalData.id = api3res.data.id
                 })
               })
             })
@@ -63,6 +63,7 @@ App({
     })    
   },
   globalData: {
+    id: "",
     hasUserInfo: false,
     userInfo: null,
     openid: "",
