@@ -37,30 +37,6 @@ App({
         content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
       })
     }
-    //微信登录写在小程序初始化时，小程序打开就会呼出登录
-    wx.login({
-      success: function(res) {
-        wx.setStorageSync('wxLoginInfo', res)
-        console.log({haha : wx.getStorageSync('wxLoginInfo')})
-        wx.getUserInfo({
-          success: function(res) {
-            that.globalData.userInfo = res.userInfo
-            that.globalData.hasUserInfo = true
-            postRequest(Api.fetchOpenid(), {js_code: wx.getStorageSync('wxLoginInfo').code}).then(apires => {
-              that.globalData.openid = apires.data.openid
-              postRequest(Api.fetchWxLogin(), {openid: that.globalData.openid}).then(api2res => {
-                //console.log(api2res)
-                wx.setStorageSync('token', api2res.data.data.access_token)
-                //console.log(wx.getStorageSync('token'))
-                getRequest(Api.fetchGetUserInfo(), null, wx.getStorageSync('token')).then(api3res => {
-                  that.globalData.id = api3res.data.id
-                })
-              })
-            })
-          }
-        })
-      }
-    })    
   },
   globalData: {
     id: "",
@@ -68,6 +44,7 @@ App({
     userInfo: null,
     openid: "",
     isGetUserInfo: false,
-    isGetOpenid: false
+    isGetOpenid: false,
+    hasToken: false
   }
 })

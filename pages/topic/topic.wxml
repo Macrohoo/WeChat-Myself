@@ -1,2 +1,2 @@
 <!--pages/topic/topic.wxml-->
-<text>pages/topic/topic.wxml</text>
+<text>{{motto}}</text>

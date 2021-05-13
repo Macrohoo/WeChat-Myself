@@ -9,7 +9,7 @@ Auth.checkLogin = function(appPage) {
     //wxLoginInfo中只会放入js_code
     wx.checkSession({
         success: function() {
-            if (!wxLoginInfo.js_code) {
+            if (!wxLoginInfo.code) {
                 Auth.wxLogin().then(res => {
                     appPage.setData({
                         wxLoginInfo: res
@@ -43,13 +43,13 @@ Auth.pageLoginCheck = function(pageObj) {
                 let currentInstance = getPageInstance();
                 _onLoad.call(currentInstance, options)
             } else {
-                wx.redirectTo({
+                wx.reLaunch({
                     url: '/pages/user/user'
                 })
             }
         }
     }
-    return pageObj
+    return Page(pageObj)
 }
 
 //wxLogin登录方法换取openid换取三要素之一的js_code
@@ -57,9 +57,7 @@ Auth.wxLogin = function() {
     return new Promise(function (resolve, reject) {
         wx.login({
             success: function(res) {
-                let args = {};
-                args.js_code = res.code;
-                resolve(args);
+                resolve(res);
             },
             fail: function(err) {
                 reject(err);

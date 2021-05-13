@@ -1,3 +1,13 @@
+
+
+
+// function newRequest(obj = {}) {
+
+// }
+
+
+
+
 function wxPromisify(fn) {
    return function (obj = {}) {
        return new Promise((resolve, reject)=> {
@@ -11,8 +21,6 @@ function wxPromisify(fn) {
        })
    } 
 }
-
-
 
 export function getRequest(url, data, token) {
     var request = wxPromisify(wx.request)

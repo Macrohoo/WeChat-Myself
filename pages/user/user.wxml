@@ -1,7 +1,7 @@
 <view class="readlog-container">
     <view wx:if="{{ !hasUserInfo }}" class="userinfo">
         <image class="userinfo-avatar" src="../../images/cry80.png" />
-        <button class="userinfo-btn" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
+        <button class="userinfo-btn" bindtap="getUserInfo">
             <text>请点击登录</text>
         </button>
     </view>
