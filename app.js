@@ -1,6 +1,18 @@
-import {getRequest, postRequest} from './utils/wxAjax'
-const Api = require('./utils/api')
+// import {getRequest, postRequest} from './utils/wxAjax'
+// const Api = require('./utils/api')
 // app.js
+import wxApiInterceptors from './utils/wxAjax';
+
+wxApiInterceptors({
+  request: {
+    response(res) {
+      if(res.statusCode == 200) {
+        return 'haha'
+      }
+    }
+  }
+})
+
 App({
   onLaunch() {
     var that = this
