@@ -20,6 +20,12 @@ module.exports = {
     fetchGetUserInfo: function() {
         var url = HOST_URI + '/user/getUserInfo'
         return url
+    },
+
+    //获取文章列表
+    fetchGetArticleList: function() {
+        var url = HOST_URI + '/article/articleList'
+        return url
     }
 
 }

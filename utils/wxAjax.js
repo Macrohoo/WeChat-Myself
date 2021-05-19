@@ -1,7 +1,7 @@
 export default ((interceptors = {}) => {
     const oldWx = {...wx}
     const newWx = {}
-    const newRequest = async (params= {}) => {
+    const newRequest = (params= {}) => {
         return new Promise((resolve, reject) => {
             async function resFn(res, cb) {
               const { statusCode } = res;
@@ -43,7 +43,7 @@ export default ((interceptors = {}) => {
         }
         newWx[name] = newApi;
     });
-    wx = newWx;    
+    wx = newWx;  
 })
 
 

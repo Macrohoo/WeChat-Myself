@@ -2,13 +2,15 @@
   "pages":[
     "pages/index/index",
     "pages/user/user",
-    "pages/topic/topic"
+    "pages/topic/topic",
+    "pages/article/article"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "Weixin",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle":"black",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "black",

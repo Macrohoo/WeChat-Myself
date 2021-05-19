@@ -1,2 +1,21 @@
-<!--pages/topic/topic.wxml-->
+<!-- pages/topic/topic.wxml -->
 <text>{{motto}}</text>
+<scroll-view style="height:100%;" scroll-y="true">
+    <view class="topic-common-list">
+        <block wx:key="id" wx:for="{{topicArticles}}">
+            <view class="list-item">
+                <view>
+                    <image src="{{item.thumbnail}}" class="cover" data-item="{{item.title}}" data-id="{{item.id}}" bindtap="redictIndex"></image>
+                </view>
+                <view class="content-title" data-item="{{item.title}}" data-id="{{item.id}}" bindtap="redictIndex">
+                    <view class="topic-name">
+                        <text>{{item.title}}</text>
+                    </view>
+                </view>
+                <view class="content-brief" data-item="{{item.name}}" data-id="{{item.id}}">
+                    <text>{{item.sort}}</text>
+                </view>
+            </view>
+        </block>
+    </view>
+</scroll-view>

@@ -6,16 +6,29 @@ import wxApiInterceptors from './utils/wxAjax';
 wxApiInterceptors({
   request: {
     response(res) {
-      if(res.statusCode == 200) {
-        return 'haha'
+      if(res.statusCode == 200 && res.data.code == 11000) {
+        wx.setStorageSync('token', res.data.data.access_token)
+        wx.reLaunch({
+          url: '/pages/user/user'
+        })        
+      } else if (res.statusCode == 401 && res.data.code == 10000) {
+        wx.removeStorageSync('token')
+        getApp().globalData.hasUserInfo = false
+        getApp().globalData.userInfo = null
+        wx.reLaunch({
+          url: '/pages/user/user'
+        })
+      } else {
+        return Promise.resolve(res)
       }
     }
   }
 })
 
 App({
+  //引入towxml3.0
+  towxml:require('./towxml/index'),
   onLaunch() {
-    var that = this
     // 展示本地存储能力
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -54,7 +67,6 @@ App({
     id: "",
     hasUserInfo: false,
     userInfo: null,
-    openid: "",
     isGetUserInfo: false,
     isGetOpenid: false,
     hasToken: false
