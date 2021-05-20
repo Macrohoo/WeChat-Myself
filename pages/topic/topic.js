@@ -16,7 +16,8 @@ Auth.pageLoginCheck({
       },
       header: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${wx.getStorageSync('token')}`,
+        'cookie': wx.getStorageSync("cookie"),
+        Authorization: `Bearer ${wx.getStorageSync('token')}`
       },      
     }).then(res => {
       console.log(res)
@@ -25,6 +26,14 @@ Auth.pageLoginCheck({
       })
       console.log(this.data.topicArticles)
     })
+  },
+  redictDetail(e) {
+    console.log(e.currentTarget)
+    const id = e.currentTarget.id
+    const url = '../article/article?id=' + id;
+    wx.navigateTo({
+      url: url
+    })    
   },
   onLoad() {
     this.getArticleList()    

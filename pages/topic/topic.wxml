@@ -2,17 +2,17 @@
 <text>{{motto}}</text>
 <scroll-view style="height:100%;" scroll-y="true">
     <view class="topic-common-list">
-        <block wx:key="id" wx:for="{{topicArticles}}">
-            <view class="list-item">
+        <block wx:key="index" wx:for="{{topicArticles}}">
+            <view class="list-item" data-index="{{index}}" id="{{item.id}}" data-detail="{{item}}" bindtap="redictDetail">
                 <view>
-                    <image src="{{item.thumbnail}}" class="cover" data-item="{{item.title}}" data-id="{{item.id}}" bindtap="redictIndex"></image>
+                    <image src="{{item.thumbnail}}" class="cover"></image>
                 </view>
-                <view class="content-title" data-item="{{item.title}}" data-id="{{item.id}}" bindtap="redictIndex">
+                <view class="content-title">
                     <view class="topic-name">
                         <text>{{item.title}}</text>
                     </view>
                 </view>
-                <view class="content-brief" data-item="{{item.name}}" data-id="{{item.id}}">
+                <view class="content-brief">
                     <text>{{item.sort}}</text>
                 </view>
             </view>

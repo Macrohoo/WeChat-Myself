@@ -1,5 +1,5 @@
 {
-    "usingComponents": {
-        "towxml":"../../towxml/towxml"
-    }
+  "usingComponents": {
+    "towxml":"../../towxml/towxml"
   }
+}

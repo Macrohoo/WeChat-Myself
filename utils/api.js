@@ -26,6 +26,12 @@ module.exports = {
     fetchGetArticleList: function() {
         var url = HOST_URI + '/article/articleList'
         return url
+    },
+
+    //文章详情回显
+    fetchGetArticleDetail: function() {
+        var url = HOST_URI + '/article/getArticle'
+        return url
     }
 
 }

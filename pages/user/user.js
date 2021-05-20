@@ -48,6 +48,7 @@ Page({
                   },
                 }).then((api3res) => {
                   console.log(api3res);
+                  wx.setStorageSync("cookie", api3res.header['set-cookie'])
                 });
               });
             });
