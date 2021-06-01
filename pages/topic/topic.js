@@ -22,9 +22,8 @@ Auth.pageLoginCheck({
     }).then(res => {
       console.log(res)
       this.setData({
-        topicArticles: res.data.rows
+        topicArticles: res.data.data.rows
       })
-      console.log(this.data.topicArticles)
     })
   },
   redictDetail(e) {

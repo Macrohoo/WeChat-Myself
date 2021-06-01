@@ -48,37 +48,23 @@ Page({
                   },
                 }).then((api3res) => {
                   console.log(api3res);
-                  wx.setStorageSync("cookie", api3res.header['set-cookie'])
+                  wx.setStorageSync('cookie', api3res.header['set-cookie']);
                 });
               });
             });
           },
         });
-        //调用微信登录
-        // wx.login({
-        //   success: function (res) {
-        //     wx.setStorageSync('wxLoginInfo', res);
-        //     //console.log({haha : wx.getStorageSync('wxLoginInfo')})
-        //     postRequest(Api.fetchOpenid(), { js_code: wx.getStorageSync('wxLoginInfo').code }).then(
-        //       (apires) => {
-        //         app.globalData.openid = apires.data.openid;
-        //         postRequest(Api.fetchWxLogin(), { openid: app.globalData.openid }).then(
-        //           (api2res) => {
-        //             //console.log(api2res)
-        //             wx.setStorageSync('token', api2res.data.data.access_token);
-        //             //console.log(wx.getStorageSync('token'))
-        //             getRequest(Api.fetchGetUserInfo(), null, wx.getStorageSync('token')).then(
-        //               (api3res) => {
-        //                 console.log(api3res);
-        //               }
-        //             );
-        //           }
-        //         );
-        //       }
-        //     );
-        //   },
-        // });
       },
+    });
+  },
+  getIp() {
+    wx.request({
+      url: 'http://pv.sohu.com/cityjson?ie=utf-8',
+      method: 'GET',
+    }).then((res) => {
+      let str = res.data.slice(20, -2).replace(/\"/g, '');
+      app.globalData.payer_client_ip = str;
+      console.log(app.globalData.payer_client_ip);
     });
   },
   /**
@@ -89,6 +75,7 @@ Page({
       hasUserInfo: app.globalData.hasUserInfo,
       userInfo: app.globalData.userInfo,
     });
+    this.getIp();
     //console.log(this.data.userInfo)
     //console.log(app.globalData.userInfo);
     //console.log(app.globalData.hasUserInfo)

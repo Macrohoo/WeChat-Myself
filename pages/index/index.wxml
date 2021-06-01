@@ -1,4 +1,31 @@
-<!--index.wxml-->
-<view class="container">
-  <towxml nodes="{{article}}"/>
+<import src="../../templates/error-block.wxml" />
+<!-- 首页幻灯片 -->
+<view class="index-header" style="display:{{displaySwiper}}">
+  <swiper class="index-swiper" indicator-dots="true" interval="10000" autoplay="true" indicator-color="rgba(255, 255, 255, .2)" indicator-active-color="rgba(255, 255, 255, .7)">
+    <block wx:key="index" wx:for="{{topSwiperList}}">
+      <swiper-item id="{{item.id}}" index="{{index}}" data-name="{{item.label_name}}" bindtap=" ">
+        <image class="itemImg" mode="scaleToFill" src="{{item.label_src}}" style="width:95%" />
+        <view class="swiper-mask"></view>
+        <view class="swiper-desc">
+          <text>{{item.label_name}}</text>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
 </view>
+<!-- 轮播图加载error -->
+<view style="display:{{showerror}}">
+  <template is="errorBlock"></template>
+</view>
+<!-- 首页搜索框 -->
+<form catchsubmit="formSubmit" id="search-form">
+  <view class="search-pancel">
+    <input value="" id="search-input" name="input" confirm-type="search" class="search-input" placeholder="搜索你感兴趣的内容..." bindconfirm="formSubmit"></input>
+    <button class="search-button" form-type="submit" size="mini" plain="true">
+      <icon type="search" color="#959595" size="20" />
+    </button>
+  </view>
+</form>
+<!-- <view >
+  <button type="primary" bindtap="payMent">支付</button>
+</view> -->

@@ -1,0 +1,7 @@
+<template name="errorBlock">
+    <view class="showerror">
+        <image src="../../images/cry80.png" style="height:100rpx;width:100rpx"></image>
+        <!-- 注意图片路径，因为是导入到父组件中，所以路径是根据父组件的位置 -->
+        <view class="errortext">暂时无法访问网络,下拉重试...</view>
+    </view>
+</template>

@@ -22,6 +22,12 @@ module.exports = {
         return url
     },
 
+    //获取文章标签列表
+    fetchGetArticleLabel() {
+        var url = HOST_URI + '/articlelabel/getArticleLabel'
+        return url
+    },
+
     //获取文章列表
     fetchGetArticleList: function() {
         var url = HOST_URI + '/article/articleList'
