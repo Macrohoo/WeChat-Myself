@@ -3,7 +3,7 @@
     "pages/index/index",
     "pages/user/user",
     "pages/topic/topic",
-    "pages/article/article"
+    "pages/articleDetail/articleDetail"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -20,14 +20,14 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "images/1-200214161U20-L.png",
-        "selectedIconPath": "images/1-200214161U20-L.png",
+        "iconPath": "images/home-no.png",
+        "selectedIconPath": "images/home-on.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/topic/topic",
-        "iconPath": "images/talk.png",
-        "selectedIconPath": "images/talk.png",
+        "iconPath": "images/topic-no.png",
+        "selectedIconPath": "images/topic-on.png",
         "text": "专栏"
       },
       {

@@ -8,6 +8,7 @@ Page({
     showerror: 'none',
     floatDisplay: 'none',
     topSwiperList: [],
+    topicArticles: []
   },
   formSubmit(e) {
     let url = '../list/list';
@@ -60,6 +61,34 @@ Page({
         });
       });
   },
+  getArticleList() {
+    wx.request({
+      url: Api.fetchGetArticleList(),
+      method: 'GET',
+      data:{
+        currentPage: 1,
+        pageSize: 10
+      },
+      header: {
+        'content-type': 'application/json',
+        'cookie': wx.getStorageSync("cookie"),
+        Authorization: `Bearer ${wx.getStorageSync('token')}`
+      },      
+    }).then(res => {
+      console.log(res)
+      this.setData({
+        topicArticles: res.data.data.rows
+      })
+    })
+  },
+  redictDetail(e) {
+    console.log(e.currentTarget)
+    const id = e.currentTarget.id
+    const url = '../articleDetail/articleDetail?id=' + id;
+    wx.navigateTo({
+      url: url
+    })    
+  },    
   // payMent() {
   //     wx.requestPayment
   //     (
@@ -81,5 +110,6 @@ Page({
   // },
   onLoad() {
     this.getTopSwiper();
+    this.getArticleList()
   },
 });

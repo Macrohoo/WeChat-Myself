@@ -29,7 +29,7 @@ Auth.pageLoginCheck({
   redictDetail(e) {
     console.log(e.currentTarget)
     const id = e.currentTarget.id
-    const url = '../article/article?id=' + id;
+    const url = '../articleDetail/articleDetail?id=' + id;
     wx.navigateTo({
       url: url
     })    
