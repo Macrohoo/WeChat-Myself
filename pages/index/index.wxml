@@ -1,4 +1,5 @@
 <import src="../../templates/error-block.wxml" />
+<import src="../../templates/article-commonList.wxml" />
 <!-- 首页幻灯片 -->
 <view class="index-header" style="display:{{displaySwiper}}">
   <swiper class="index-swiper" indicator-dots="true" interval="10000" autoplay="true" indicator-color="rgba(255, 255, 255, .2)" indicator-active-color="rgba(255, 255, 255, .7)">
@@ -26,6 +27,50 @@
     </button>
   </view>
 </form>
+<!-- 图标导航 -->
+<view class="native-container">
+  <view class="cms-tit">
+    <view class="cms-tit-left"></view>
+    <view class="cms-tit-txt">猜你喜欢</view>
+    <view class="cms-tit-more" data-foodlink="yeehee"></view>
+  </view>
+  <view class='top-Nav2'>
+    <navigator url='../hot/hot' hover-class='none'>
+      <view class='.top-Nav2-item'>
+        <image src='../../images/star.png'></image>
+        <text>热门排行</text>
+      </view>
+    </navigator>
+    <navigator url="../../pages/list/list?categoryID=4" hover-class='none'>
+      <view class='.top-Nav2-item'>
+        <image src='../../images/JavaScript.svg'></image>
+        <text>JS</text>
+      </view>
+    </navigator>
+    <navigator url="../../pages/list/list?categoryID=26" hover-class='none'>
+      <view class='.top-Nav2-item'>
+        <image src='../../images/Vue.png'></image>
+        <text>Vue</text>
+      </view>
+    </navigator>
+    <navigator url="../../pages/list/list?categoryID=39" hover-class='none'>
+      <view class='.top-Nav2-item'>
+        <image src='../../images/elementui.png'></image>
+        <text>Element</text>
+      </view>
+    </navigator>
+  </view>
+</view>
+<view class="native-container">
+  <view class="cms-tit">
+    <view class="cms-tit-left"></view>
+    <view class="cms-tit-txt">最新文章</view>
+    <view class="cms-tit-more" data-foodlink="yeehee"></view>
+  </view>
+</view>
+<view class="article-container">
+  <template is="tempCommonList" data="{{topicArticles}}" />
+</view>
 <!-- <view >
   <button type="primary" bindtap="payMent">支付</button>
 </view> -->
