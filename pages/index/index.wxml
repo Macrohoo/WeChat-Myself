@@ -1,5 +1,6 @@
 <import src="../../templates/error-block.wxml" />
 <import src="../../templates/article-commonList.wxml" />
+<import src="../../templates/article-footer.wxml"/>
 <!-- 首页幻灯片 -->
 <view class="index-header" style="display:{{displaySwiper}}">
   <swiper class="index-swiper" indicator-dots="true" interval="10000" autoplay="true" indicator-color="rgba(255, 255, 255, .2)" indicator-active-color="rgba(255, 255, 255, .7)">
@@ -32,7 +33,7 @@
   <view class="cms-tit">
     <view class="cms-tit-left"></view>
     <view class="cms-tit-txt">猜你喜欢</view>
-    <view class="cms-tit-more" data-foodlink="yeehee"></view>
+    <view class="cms-tit-more"></view>
   </view>
   <view class='top-Nav2'>
     <navigator url='../hot/hot' hover-class='none'>
@@ -41,7 +42,7 @@
         <text>热门排行</text>
       </view>
     </navigator>
-    <navigator url="../../pages/list/list?categoryID=4" hover-class='none'>
+    <navigator url="../../pages/tailoredArticleList/tailoredArticleList?currentPage=1&pageSize=10&article_label=JavaScript" hover-class='none'>
       <view class='.top-Nav2-item'>
         <image src='../../images/JavaScript.svg'></image>
         <text>JS</text>
@@ -65,11 +66,16 @@
   <view class="cms-tit">
     <view class="cms-tit-left"></view>
     <view class="cms-tit-txt">最新文章</view>
-    <view class="cms-tit-more" data-foodlink="yeehee"></view>
+    <view class="cms-tit-more"></view>
   </view>
 </view>
 <view class="article-container">
   <template is="tempCommonList" data="{{topicArticles}}" />
+  <view class="loading-more" bindtap="loadMore" wx:if="{{loadMoreFont}}">加载更多</view>
+  <view class="loading-more" wx:else>无更多文章</view>
+</view>
+<view class="article-footer">
+  <template is="tempFooter"/>
 </view>
 <!-- <view >
   <button type="primary" bindtap="payMent">支付</button>

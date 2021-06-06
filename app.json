@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/user/user",
     "pages/topic/topic",
-    "pages/articleDetail/articleDetail"
+    "pages/articleDetail/articleDetail",
+    "pages/tailoredArticleList/tailoredArticleList"
   ],
   "window":{
     "backgroundTextStyle":"light",

@@ -1,28 +1,26 @@
 <template name="tempCommonList">
     <view class="common-list">
-        <block wx:key="index" wx:for="{{topicArticles}}">
-            <view class="list-item has-img" index="{{index}}" id="{{item.id}}" bindtap="redictDetail">
-                <image src="{{item.thumbnail}}" mode="aspectFill" class="cover"></image>
-                <view class="content-title">
-                    <text>{{item.title}}</text>
-                </view>
-                <view class="content-desc">
-                    <text>{{item.describe}}</text>
-                </view>
-                <view class="content-date">
-                    <text class='cate'>{{item.article_label}}</text>
-                </view>
-                <view class="content-date">
-                    <image src="../../images/calendar.png"></image>
-                    <text>{{item.created_at}}</text>
-                    <image src="../../images/comments.png"></image>
-                    <text class="">{{item.comment_num}}</text>
-                    <image src="../../images/pageviews.png"></image>
-                    <text class="">{{item.read_num}}</text>
-                    <image src="../../images/home-like.png"></image>
-                    <text class="">{{item.praise_num}}</text>
-                </view>
+        <view class="list-item" index="{{index}}" id="{{item.id}}" bindtap="redictDetail" wx:key="index" wx:for="{{topicArticles}}">
+            <image src="{{item.thumbnail}}" mode="aspectFill" class="cover"></image>
+            <view class="content-title">
+                <text>{{item.title}}</text>
             </view>
-        </block>
+            <view class="content-desc">
+                <text>{{item.describe}}</text>
+            </view>
+            <view class="content-label">
+                <text>{{item.article_label}}</text>
+            </view>
+            <view class="content-bottom">
+                <image src="../../images/calendar.png"></image>
+                <text>{{item.created_at}}</text>
+                <image src="../../images/comments.png"></image>
+                <text class="">{{item.comment_num}}</text>
+                <image src="../../images/pageviews.png"></image>
+                <text class="">{{item.read_num}}</text>
+                <image src="../../images/home-like.png"></image>
+                <text class="">{{item.praise_num}}</text>
+            </view>
+        </view>
     </view>
 </template>

@@ -34,6 +34,12 @@ module.exports = {
         return url
     },
 
+    //获取具体标签文章列表
+    fetchGetArticleInLabel() {
+        var url = HOST_URI + '/article/articleInLabel'
+        return url        
+    },
+
     //文章详情回显
     fetchGetArticleDetail: function() {
         var url = HOST_URI + '/article/getArticle'
