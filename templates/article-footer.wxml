@@ -1,0 +1,3 @@
+<template name="tempFooter">
+    <view>© 2021 Marhoo开源  github.com/Marhooo</view>
+</template>

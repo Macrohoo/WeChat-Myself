@@ -6,9 +6,11 @@ Page({
   data: {
     displaySwiper: 'none',
     showerror: 'none',
-    floatDisplay: 'none',
     topSwiperList: [],
-    topicArticles: []
+    topicArticles: [],
+    loadtemp: 1,
+    allArticleCount: 0,
+    loadMoreFont: true,
   },
   formSubmit(e) {
     let url = '../list/list';
@@ -56,18 +58,17 @@ Page({
       .catch((err) => {
         console.log(err);
         this.setData({
-          showerror: 'block',
-          floatDisplay: 'none',
+          showerror: 'block'
         });
       });
   },
-  getArticleList() {
+  getArticleList(currentPage, pageSize) {
     wx.request({
       url: Api.fetchGetArticleList(),
       method: 'GET',
       data:{
-        currentPage: 1,
-        pageSize: 10
+        currentPage: currentPage,
+        pageSize: pageSize
       },
       header: {
         'content-type': 'application/json',
@@ -76,9 +77,17 @@ Page({
       },      
     }).then(res => {
       console.log(res)
+      const newGetArticle = res.data.data.rows
+      const oldGetArticle = this.data.topicArticles
       this.setData({
-        topicArticles: res.data.data.rows
+        topicArticles: oldGetArticle.concat(newGetArticle),
+        allArticleCount: res.data.data.count
       })
+      if(res.data.data.count <= 10) {
+        this.setData({
+            loadMoreFont: false
+        })
+      }
     })
   },
   redictDetail(e) {
@@ -88,6 +97,25 @@ Page({
     wx.navigateTo({
       url: url
     })    
+  },
+  loadMore() {
+    console.log("haha")
+    if(this.data.loadtemp * 10 < this.data.allArticleCount) {
+        this.getArticleList(this.data.loadtemp + 1, 10)
+        const nowtemp = this.data.loadtemp + 1
+        this.setData({
+            loadtemp: nowtemp
+        })
+        if(this.data.loadtemp * 10 >= this.data.allArticleCount) {
+            this.setData({
+                loadMoreFont: false
+            })
+        }
+    }else {
+        this.setData({
+            loadMoreFont: false
+        })
+    }
   },    
   // payMent() {
   //     wx.requestPayment
@@ -110,6 +138,6 @@ Page({
   // },
   onLoad() {
     this.getTopSwiper();
-    this.getArticleList()
+    this.getArticleList(1, 10)
   },
 });
