@@ -1,4 +1,5 @@
-<!--index.wxml-->
+<!-- index.wxml -->
+<view class="detailhead">{{articleTitle}}</view>
 <view class="container">
-  <towxml nodes="{{article}}"/>
+  <towxml nodes="{{article}}" />
 </view>

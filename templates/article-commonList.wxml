@@ -1,6 +1,6 @@
 <template name="tempCommonList">
     <view class="common-list">
-        <view class="list-item" index="{{index}}" id="{{item.id}}" bindtap="redictDetail" wx:key="index" wx:for="{{topicArticles}}">
+        <view class="list-item" index="{{index}}" data-title="{{item.title}}" id="{{item.id}}" bindtap="redictDetail" wx:key="index" wx:for="{{topicArticles}}">
             <image src="{{item.thumbnail}}" mode="aspectFill" class="cover"></image>
             <view class="content-title">
                 <text>{{item.title}}</text>

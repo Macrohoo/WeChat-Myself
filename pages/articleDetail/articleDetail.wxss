@@ -1,0 +1,9 @@
+.detailhead {
+  font-size: 48rpx;
+  line-height: 1.6;
+  font-weight: bold;
+  outline: none;
+  color: #3a4040;
+  border-bottom: 1px solid #eee;
+  margin: 40rpx 40rpx 0 40rpx;
+}
