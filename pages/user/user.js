@@ -5,9 +5,6 @@ var app = getApp();
 const Api = require('../../utils/api');
 //const Auth = require('../../utils/auth')
 Page({
-  /**
-   * 页面的初始数据
-   */
   data: {
     userInfo: {},
     hasUserInfo: false,
@@ -18,6 +15,7 @@ Page({
     wx.getUserProfile({
       desc: '用于完善获取资料且唤醒授权窗口',
       success: function (res) {
+        console.log(res);
         app.globalData.userInfo = res.userInfo;
         app.globalData.hasUserInfo = true;
         that.setData({
@@ -29,27 +27,24 @@ Page({
             wx.setStorageSync('wxLoginInfo', res);
             //console.log({haha : wx.getStorageSync('wxLoginInfo')})
             wx.request({
-              url: Api.fetchOpenid(),
+              url: Api.fetchWxRegisterLogin(),
               method: 'POST',
-              data: { js_code: wx.getStorageSync('wxLoginInfo').code },
+              data: {
+                js_code: wx.getStorageSync('wxLoginInfo').code,
+                userInfo: app.globalData.userInfo,
+              },
             }).then((apires) => {
+              wx.setStorageSync('token', apires.data.data.access_token);
               wx.request({
-                url: Api.fetchWxLogin(),
-                method: 'POST',
-                data: { openid: apires.data.openid },
+                url: Api.fetchGetUserInfo(),
+                method: 'GET',
+                header: {
+                  'content-type': 'application/json',
+                  Authorization: `Bearer ${wx.getStorageSync('token')}`,
+                },
               }).then((api2res) => {
-                wx.setStorageSync('token', api2res.data.data.access_token);
-                wx.request({
-                  url: Api.fetchGetUserInfo(),
-                  method: 'GET',
-                  header: {
-                    'content-type': 'application/json',
-                    Authorization: `Bearer ${wx.getStorageSync('token')}`,
-                  },
-                }).then((api3res) => {
-                  console.log(api3res);
-                  wx.setStorageSync('cookie', api3res.header['set-cookie']);
-                });
+                console.log(api2res);
+                wx.setStorageSync('cookie', api2res.header['set-cookie']);
               });
             });
           },

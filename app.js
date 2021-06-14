@@ -68,7 +68,6 @@ App({
     hasUserInfo: false,
     userInfo: null,
     isGetUserInfo: false,
-    isGetOpenid: false,
     hasToken: false,
     payer_client_ip: ""
   }

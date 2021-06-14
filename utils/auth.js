@@ -3,7 +3,7 @@
 const Auth = {}
 
 
-//检查登录态是否过期
+//检查登录态是否过期(我这里应该不需要用这个小轮子了，我用interceptor解决了)
 Auth.checkLogin = function(appPage) {
     let wxLoginInfo = wx.getStorageSync('wxLoginInfo');
     //wxLoginInfo中只会放入js_code

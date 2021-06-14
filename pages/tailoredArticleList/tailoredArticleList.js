@@ -6,7 +6,7 @@ Page({
     loadtemp: 1,
     allArticleCount: 0,
     loadMoreFont: true,
-    tailoredContent: null
+    searchKey: ''
   },
   getTailoredArticleList(x, y, z) {
     wx.request({
@@ -66,7 +66,7 @@ Page({
   onLoad(options) {
     this.getTailoredArticleList(options.currentPage, options.pageSize, options.article_label)
     this.setData({
-        tailoredContent: options.article_label
+        searchKey: options.article_label
     })
   },
 });

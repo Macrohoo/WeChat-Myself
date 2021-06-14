@@ -4,15 +4,9 @@ var pageCount = config.getPageCount
 var HOST_URI = 'http://' + domain
 
 module.exports = {
-    //js_code换取Openid
-    fetchOpenid: function() {
-        var url = HOST_URI + '/customer/wxlogin/openid'
-        return url
-    },
-
-    //微信登录换取token
-    fetchWxLogin: function() {
-        var url = HOST_URI + '/customer/user/wxlogin'
+    //微信注册/登录接口(后台通过js_code换取Openid)换取token
+    fetchWxRegisterLogin: function() {
+        var url = HOST_URI + '/customer/user/wxRegisterLogin'
         return url
     },
 
