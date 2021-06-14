@@ -3,3 +3,31 @@
 <view class="container">
   <towxml nodes="{{article}}" />
 </view>
+<!-- 点赞块 -->
+<view class="likeBlock">
+  <view class="likeUp">
+    <view class="likeTitle">{{likeCount}}人已赞</view>
+    <image src="../../images/like-on.png" class="img-like" id="liketop" catchtap="clickLike"></image>
+  </view>
+  <view class="likeDown">
+    <block wx:key="index" wx:for="{{likeList}}">
+      <image src="{{item}}" class="gravatarLikeImg"></image>
+    </block>
+  </view>
+</view>
+<!-- 评论显示块 -->
+<view class="comment-top">评论交流(点击评论内容可以回复)</view>
+<view class="comment-content">
+  <view class="commentUp">{{commentCount}}人已评论</view>
+</view>
+<view class="comment-list">
+  <!-- wx:key="index" wx:for="{{commentList}}" -->
+  <view class="list-item" >  
+    <view class="list-item-up">
+      <image src="../../images/gravatar.png" class="img-commenter" />
+      <view class="name-commenter">{{author}}哈哈</view>
+    </view>
+    <view class="list-item-mid">{{item.content}}</view>
+    <view class="list-item-down">展开{{child_count}}条评论回复</view>
+  </view>
+</view>
