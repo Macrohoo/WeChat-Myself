@@ -74,10 +74,12 @@
   display: flex;
   flex-direction: column;
   margin: 24rpx;
-  height: 200rpx;  
+  min-height: 200rpx;
+  /* 这个保证最小块高度是240rpx  */
 }
 
 .comment-list .list-item .list-item-up {
+  padding-top: 10rpx;
   display: flex;
   height: 50rpx;
 }
@@ -95,4 +97,99 @@
   line-height: 50rpx;
   font-size: 32rpx;
   color: #959595;  
+}
+
+.comment-list .list-item .list-item-mid {
+  /* height: 120rpx;    */
+  flex: 1;
+}
+
+.comment-list .list-item .list-item-mid text {
+  padding: 10rpx 60rpx 0rpx 60rpx;
+  color: #4c4c4c;
+  font-size: 30rpx;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: 1.2;
+}
+
+
+.comment-list .list-item .list-item-down {
+  font-size: 28rpx;
+  color: #959595;
+  padding-left: 100rpx;
+  padding-bottom: 10rpx;
+  padding-top: 10rpx;
+}
+
+.comment-list .list-item .list-item-more {
+  padding: 10rpx 60rpx 0rpx 60rpx;
+  display: flex;
+  flex-direction: column;
+  min-height: 160rpx; 
+}
+
+.comment-list .list-item .list-item-more .more-item-up {
+  padding-top: 10rpx;
+  display: flex;
+  height: 50rpx;  
+}
+
+.comment-list .list-item .list-item-more .more-item-up .img-commenter {
+  padding-left: 16rpx;
+  padding-right: 30rpx;
+  width: 50rpx;
+  height: 50rpx;  
+}
+
+.comment-list .list-item .list-item-more .more-item-up .name-commenter {
+  flex: 1;
+  text-align: left;
+  /* line-height: 50rpx; */
+  font-size: 32rpx;
+  color: #959595;
+}
+
+.comment-list .list-item .list-item-more .more-item-mid {
+  flex: 1;
+}
+
+.comment-list .list-item .list-item-more .more-item-mid text {
+  padding: 10rpx 60rpx 0rpx 60rpx;
+  color: #4c4c4c;
+  font-size: 30rpx;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: 1.2;  
+}
+
+.comment-list .list-item .more-item-down {
+  font-size: 28rpx;
+  color: #959595;
+  padding-left: 100rpx;
+  padding-bottom: 10rpx;
+  padding-top: 10rpx;  
+}
+
+.comment-list .list-item .more-item-hidden {
+  font-size: 28rpx;
+  color: #959595;
+  padding-left: 100rpx;
+  padding-bottom: 10rpx;
+  padding-top: 10rpx;   
+}
+
+
+.commentMore {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;  
 }

@@ -1,3 +1,4 @@
+<import src="../../templates/comment-more-bar.wxml"/>
 <!-- index.wxml -->
 <view class="detailhead">{{articleTitle}}</view>
 <view class="container">
@@ -21,13 +22,32 @@
   <view class="commentUp">{{commentCount}}人已评论</view>
 </view>
 <view class="comment-list">
-  <!-- wx:key="index" wx:for="{{commentList}}" -->
-  <view class="list-item" >  
+  <!-- 一级评论 -->
+  <view class="list-item" wx:key="index" wx:for="{{commentList}}">  
     <view class="list-item-up">
-      <image src="../../images/gravatar.png" class="img-commenter" />
-      <view class="name-commenter">{{author}}哈哈</view>
+      <image src="{{item.commenter_avatar}}" class="img-commenter" />
+      <view class="name-commenter">{{item.commenter}}哈哈</view>
     </view>
-    <view class="list-item-mid">{{item.content}}</view>
-    <view class="list-item-down">展开{{child_count}}条评论回复</view>
+    <view class="list-item-mid">
+      <text>Vue2.6.11框架下主要以Vuetify的快速响应式布局Scss写法和轻量UI组件为优势，建立一个移动端H5项目快速开发基底模板。Vue2.6.11框架下主要以Vuetify的快速响应式布局Scss写法和轻量UI组件为优势，建立一个移动端H5项目快速开发基底模板。{{item.content}}</text>
+    </view>
+    <view class="list-item-down" bindtap="loadMoreReply" wx:if="{{item.loadMoreReplyFont}}" data-index="{{index}}" style="display:{{item.child.length == 0 ? 'none' : 'block'}}">——展开{{item.child_count}}条评论回复→</view>
+    <!-- 二级回复(双 wx:for 例子，利用item里面的child) -->
+    <view class="list-item-more" wx:key="index"  wx:for="{{item.child}}" wx:for-item="i" style="display:{{item.firstlevel}}">
+      <view class="more-item-up">
+        <image src="{{i.from_author_avatar}}" class="img-commenter" />
+        <view class="name-commenter">{{i.from_author}} 回复：{{i.to_reply_author}}</view>    
+      </view>
+      <view class="more-item-mid">
+        <text>{{i.content}}</text>
+      </view>
+    </view>
+    <view class="more-item-down" bindtap="loadMoreReply2" wx:if="{{item.loadMoreReplyFont2}}" data-index="{{index}}" style="display:{{item.firstlevel}}">——展开更多回复→</view>
+    <view class="more-item-hidden" bindtap="hiddenReply" data-index="{{index}}" style="display:{{item.hiddenText}}">————收起————</view>    
   </view>
+</view>
+
+<!-- 评论输入分享Bar -->
+<view class="commentMore">
+  <template is="commentMoreBar" />
 </view>

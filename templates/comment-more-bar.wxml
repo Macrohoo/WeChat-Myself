@@ -1,0 +1,13 @@
+<template name="commentMoreBar">
+    <view class="comment-more-bar">
+        <form catchsubmit="formSubmit" id="comment-form">
+            <view class="comment-bar">
+                <image src="../../images/entry-home.png" class="img-plus" catchtap="goHome"></image>
+                <input class="comment-input" type='text' confirm-type="send" cursor-spacing="10" maxlength="60" name="inputComment" value="{{content}}" placeholder=":对文章评论" bindconfirm="formSubmit" focus="{{focus}}" bindblur="onReplyBlur" bindfocus="onRepleyFocus" />
+                <button class="comment-button" formType="submit">发送</button>
+                <image src="../../images/plus.png" class="img-plus" catchtap="ShowHideMenu"></image>
+            </view>
+        </form>
+        <view class="comment-more"></view>
+    </view>
+</template>

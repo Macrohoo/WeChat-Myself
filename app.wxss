@@ -83,3 +83,54 @@
   line-height: 1.2;
   font-weight: normal;
 }
+
+/* 评论组件wxss */
+.comment-more-bar {
+  display: flex;
+  flex-direction: column;
+  height: 120rpx;
+  background-color: #fff;
+  box-shadow: 0 0 6px rgba(30, 20, 20, 0.1);
+}
+
+.comment-more-bar .comment-bar {
+  display: flex;
+  height: 50rpx;
+}
+
+.comment-more-bar .comment-bar .img-plus {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10rpx 0 10rpx;
+}
+
+.comment-more-bar .comment-bar .comment-button {
+  width: 160rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 25rpx;
+  background-color: rgb(29, 140, 231);
+  color: white;
+}
+
+.comment-more-bar .comment-bar .comment-input {
+  background-color: #f5f7f7;
+  padding: 2rpx 3rpx 2rpx 10rpx;
+  font-size: 20rpx;
+  height: 48rpx;
+  flex: 1;
+  text-align: left;
+  border-radius: 6px;
+}
+
+.comment-more-bar .comment-more {
+  flex: 1;
+  display: flex;
+  background: yellow;
+}

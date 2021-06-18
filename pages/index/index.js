@@ -8,17 +8,17 @@ Page({
     showerror: 'none',
     topSwiperList: [],
     topicArticles: [],
-    loadtemp: 1,
+    loadtemp: 1,   //当前加载1页
     allArticleCount: 0,
-    loadMoreFont: true,
+    loadMoreFont: true
   },
   formSubmit(e) {
-    let url = '../list/list';
+    let url = '../list/list';   //这里错误的还需要改 
     let key;
     if (e.currentTarget.id == 'search-input') {
-      key = e.detail.value;
+      key = e.detail.value;  //这里是input表单触发submit事件
     } else {
-      key = e.detail.value.input;
+      key = e.detail.value.input; //form表单触发submit事件，但注意这里是catchsubmit冒泡拦截，event.detail = {value : {'name': 'value'} , formId: ''}，这里name是input
     }
     if (key != '') {
       url = url + '?search=' + key;
@@ -104,14 +104,14 @@ Page({
     if(this.data.loadtemp * 10 < this.data.allArticleCount) {
         this.getArticleList(this.data.loadtemp + 1, 10)
         const nowtemp = this.data.loadtemp + 1
-        this.setData({
-            loadtemp: nowtemp
-        })
-        if(this.data.loadtemp * 10 >= this.data.allArticleCount) {
-            this.setData({
-                loadMoreFont: false
-            })
+        if((this.data.loadtemp + 1) * 10 >= this.data.allArticleCount) {
+          this.setData({
+              loadMoreFont: false
+          })
         }
+        this.setData({
+          loadtemp: nowtemp
+        })        
     }else {
         this.setData({
             loadMoreFont: false

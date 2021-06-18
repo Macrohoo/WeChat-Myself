@@ -38,6 +38,18 @@ module.exports = {
     fetchGetArticleDetail: function() {
         var url = HOST_URI + '/article/getArticle'
         return url
+    },
+
+    //某篇文章的评论列表(篾条文章第一层评论附带5条reply)
+    fetchGetSingleArticleCommentList: function() {
+        var url = HOST_URI + '/comment/singleArticleCommentList'
+        return url        
+    },
+
+    //文章评论中对某评论的回复列表
+    fetchGetCommentReplyList: function() {
+        var url = HOST_URI + '/comment/commentReplyList'
+        return url          
     }
 
 }
