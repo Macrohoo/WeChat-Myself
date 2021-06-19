@@ -45,6 +45,7 @@ Page({
               }).then((api2res) => {
                 console.log(api2res);
                 wx.setStorageSync('cookie', api2res.header['set-cookie']);
+                app.globalData.id = api2res.data.id
               });
             });
           },

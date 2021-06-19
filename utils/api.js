@@ -47,9 +47,20 @@ module.exports = {
     },
 
     //文章评论中对某评论的回复列表
-    fetchGetCommentReplyList: function() {
-        var url = HOST_URI + '/comment/commentReplyList'
+    // fetchGetCommentReplyList: function() {
+    //     var url = HOST_URI + '/comment/commentReplyList'
+    //     return url          
+    // }
+
+    //发表评论
+    fetchAddComment: function() {
+        var url = HOST_URI + '/comment/addComment'
+        return url         
+    },
+
+    //回复评论
+    fetchreplyComment: function() {
+        var url = HOST_URI + '/comment/replyComment'
         return url          
     }
-
 }

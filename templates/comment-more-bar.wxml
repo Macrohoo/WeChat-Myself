@@ -1,13 +1,27 @@
 <template name="commentMoreBar">
     <view class="comment-more-bar">
-        <form catchsubmit="formSubmit" id="comment-form">
+        <form catchsubmit="formReplySubmit" id="comment-form">
             <view class="comment-bar">
-                <image src="../../images/entry-home.png" class="img-plus" catchtap="goHome"></image>
-                <input class="comment-input" type='text' confirm-type="send" cursor-spacing="10" maxlength="60" name="inputComment" value="{{content}}" placeholder=":对文章评论" bindconfirm="formSubmit" focus="{{focus}}" bindblur="onReplyBlur" bindfocus="onRepleyFocus" />
+                <image src="../../images/1-1604211605260-L.png" class="img-plus" catchtap="goUser"></image>
+                <input class="comment-input" id="comment-input" type='text' confirm-type="send" cursor-spacing="10" maxlength="60" name="inputComment" value="{{valueInput}}" placeholder="{{sayTo.length == 0 ? ':回复评论文章' : sayTo}}" bindconfirm="formReplySubmit" focus="{{focus}}" bindfocus="onRepleyFocus" />
+                <view class="commnet-reset" catchtap="commentReset">清空</view>
                 <button class="comment-button" formType="submit">发送</button>
                 <image src="../../images/plus.png" class="img-plus" catchtap="ShowHideMenu"></image>
             </view>
         </form>
-        <view class="comment-more"></view>
+        <view class="comment-more">
+            <view class="more-forward">
+                <image src="../../images/forwarding.png"></image>
+                <text >转发</text>
+            </view>
+            <view class="more-like">
+                <image src="../../images/like-on.png"></image>
+                <text >点赞</text>
+            </view>
+            <view class="more-pay">
+                <image src="../../images/appreciation.png"></image>
+                <text >打赏</text>
+            </view>                        
+        </view>
     </view>
 </template>

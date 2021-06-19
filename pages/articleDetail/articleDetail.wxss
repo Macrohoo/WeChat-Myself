@@ -48,6 +48,10 @@
   margin-right: 20rpx;
 }
 
+.cmt {
+  padding-bottom: 80rpx;
+}
+
 .comment-top {
   text-align: left;
   font-weight: normal;
@@ -188,8 +192,64 @@
 
 .commentMore {
   position: fixed;
-  bottom: 0;
+  bottom: -100rpx;
   left: 0;
   right: 0;
-  z-index: 100;  
+  z-index: 100;
+  border-top: 1px solid #eee;  
+}
+
+.emoji-move-in {
+  -webkit-animation: emoji-move-in 0.3s forwards;
+  animation: emoji-move-in 0.3s forwards;
+}
+
+.emoji-move-out {
+  -webkit-animation: emoji-move-out 0.3s forwards;
+  animation: emoji-move-out 0.3s forwards;
+}
+
+.no-emoji-move {
+  -webkit-animation: none;
+  animation: none;
+}
+
+@-webkit-keyframes emoji-move-in {
+  0% {
+    bottom: -100rpx;
+  }
+
+  100% {
+    bottom: 0rpx;
+  }
+}
+
+@keyframes emoji-move-in {
+  0% {
+    bottom: -100rpx;
+  }
+
+  100% {
+    bottom: 0rpx;
+  }
+}
+
+@-webkit-keyframes emoji-move-out {
+  0% {
+    bottom: 0;
+  }
+
+  100% {
+    bottom: -100rpx;
+  }
+}
+
+@keyframes emoji-move-out {
+  0% {
+    bottom: 0;
+  }
+
+  100% {
+    bottom: -100rpx;
+  }
 }

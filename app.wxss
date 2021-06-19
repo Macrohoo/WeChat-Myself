@@ -88,14 +88,15 @@
 .comment-more-bar {
   display: flex;
   flex-direction: column;
-  height: 120rpx;
+  height: 180rpx;
   background-color: #fff;
   box-shadow: 0 0 6px rgba(30, 20, 20, 0.1);
 }
 
 .comment-more-bar .comment-bar {
   display: flex;
-  height: 50rpx;
+  height: 60rpx;
+  padding: 10rpx 10rpx;
 }
 
 .comment-more-bar .comment-bar .img-plus {
@@ -105,6 +106,18 @@
   align-items: center;
   justify-content: center;
   padding: 0 10rpx 0 10rpx;
+}
+
+.comment-more-bar .comment-bar .commnet-reset {
+  width: 80rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 25rpx;
+  background-color: #959595;
+  color: white;  
 }
 
 .comment-more-bar .comment-bar .comment-button {
@@ -132,5 +145,37 @@
 .comment-more-bar .comment-more {
   flex: 1;
   display: flex;
-  background: yellow;
+  border-top: 2px solid #eee;
+  justify-content: space-around;
+}
+
+.comment-more-bar .comment-more .more-forward {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  flex-direction: column;
+}
+
+.comment-more-bar .comment-more image {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.comment-more-bar .comment-more text {
+  font-size: 14rpx;
+  color: #959595;  
+}
+
+.comment-more-bar .comment-more .more-like {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.comment-more-bar .comment-more .more-pay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
