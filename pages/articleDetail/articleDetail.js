@@ -20,9 +20,19 @@ Page({
     focus: false,   //在准确回复评论的时候用来聚焦输入框用！
     replyUserInfo: {}, //关于当前用户，回复人，评论人暂存信息
     replyInfo: {},  //回复暂存信息
-    loadMoreFont: true //控制loadMoreComment
+    loadMoreFont: true, //控制loadMoreComment
+    payshow: false
 
   },
+  clickpay() {
+    this.setData({
+      payshow: true
+    })
+  },
+
+  payClose() {
+    this.setData({ payshow: false });
+  },  
   onLoad: function (options) {
     this.getArticleDetail(options.id);
     this.getSingleArticleCommentList(1, 5, 1, 3, options.id)
@@ -165,7 +175,6 @@ Page({
   },
   loadMoreReply(e) {
     //console.log(this.data.commentList)
-    // console.log(e.currentTarget)
     this.data.commentList[e.currentTarget.dataset.index].loadMoreReplyFont = false
     this.data.commentList[e.currentTarget.dataset.index].firstlevel = 'flex'
     if(this.data.commentList[e.currentTarget.dataset.index].child.length > 3 || this.data.commentList[e.currentTarget.dataset.index].child_count <= 3 ) {
@@ -177,7 +186,6 @@ Page({
   },
   loadMoreReply2(e) {
     //不能用getSingleArticleCommentList的，重新建立一个接口
-    //console.log(e.currentTarget)
     if(this.data.commentList[e.currentTarget.dataset.index].replyLoadTempIn * 3 < this.data.commentList[e.currentTarget.dataset.index].child_count) {
       let oldComment = this.data.commentList
       wx.request({
@@ -201,13 +209,13 @@ Page({
         oldComment[e.currentTarget.dataset.index].child = newCommentReply
         oldComment[e.currentTarget.dataset.index].firstlevel = 'flex'
         oldComment[e.currentTarget.dataset.index].replyLoadTempIn += 1
+        this.setData({
+          commentList: oldComment
+        })
         if ( (this.data.commentList[e.currentTarget.dataset.index].replyLoadTempIn + 1) * 3 >= this.data.commentList[e.currentTarget.dataset.index].child_count) {
           oldComment[e.currentTarget.dataset.index].loadMoreReplyFont2 = false
           oldComment[e.currentTarget.dataset.index].hiddenText = 'flex'         
         }
-        this.setData({
-          commentList: oldComment
-        })        
       })
     }else {
       this.data.commentList[e.currentTarget.dataset.index].loadMoreReplyFont2 = false
@@ -252,21 +260,22 @@ Page({
   },
   //点击评论或回复内容时
   toReplyInfo(e) {
-    //console.log(e.currentTarget)
     this.setData({
       replyUserInfo: {}
     })
-    if(e.currentTarget.dataset.endex) {
+    //console.log(e.currentTarget.dataset)
+    if(e.currentTarget.dataset.endex >= 0) {
+      //console.log(e.currentTarget.dataset.endex)
       //点击到的是二级回复的情况
       this.data.replyUserInfo.toUserId = this.data.commentList[e.currentTarget.dataset.index].commenter_id
       this.data.replyUserInfo.commentId = this.data.commentList[e.currentTarget.dataset.index].id
-      this.data.replyUserInfo.toReplyUserId = this.data.commentList[e.currentTarget.dataset.index].child[e.currentTarget.dataset.endex].to_reply_user_id
+      this.data.replyUserInfo.toReplyUserId = this.data.commentList[e.currentTarget.dataset.index].child[e.currentTarget.dataset.endex].from_user_id
       this.setData({
         replyUserInfo: this.data.replyUserInfo,
         focus: true,
-        sayTo: this.data.commentList[e.currentTarget.dataset.index].child[e.currentTarget.dataset.endex].to_reply_author
+        sayTo: this.data.commentList[e.currentTarget.dataset.index].child[e.currentTarget.dataset.endex].from_author
       })
-      console.log(this.data.replyUserInfo)
+      //console.log(this.data.replyUserInfo)
     } else {
       //点击到的是一级回复
       this.data.replyUserInfo.toUserId = this.data.commentList[e.currentTarget.dataset.index].commenter_id
@@ -276,7 +285,7 @@ Page({
         focus: true,
         sayTo: this.data.commentList[e.currentTarget.dataset.index].commenter
       }) 
-      console.log(this.data.replyUserInfo)           
+      //console.log(this.data.replyUserInfo)           
     }
   },
   //清空重置评论

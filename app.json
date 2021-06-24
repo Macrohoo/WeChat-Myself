@@ -6,6 +6,10 @@
     "pages/articleDetail/articleDetail",
     "pages/tailoredArticleList/tailoredArticleList"
   ],
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-dialog": "@vant/weapp/dialog/index"
+  },  
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
@@ -39,6 +43,5 @@
       }
     ]    
   },
-  "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

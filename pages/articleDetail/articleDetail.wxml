@@ -1,4 +1,4 @@
-<import src="../../templates/comment-more-bar.wxml"/>
+<import src="../../templates/comment-more-bar.wxml" />
 <!-- index.wxml -->
 <view class="detailhead">{{articleTitle}}</view>
 <view class="container">
@@ -24,7 +24,7 @@
   </view>
   <view class="comment-list">
     <!-- 一级评论 -->
-    <view class="list-item" wx:key="index" wx:for="{{commentList}}">  
+    <view class="list-item" wx:key="index" wx:for="{{commentList}}">
       <view class="list-item-up">
         <image src="{{item.commenter_avatar}}" class="img-commenter" />
         <view class="name-commenter">{{item.commenter}}</view>
@@ -32,26 +32,48 @@
       <view class="list-item-mid" catchtap="toReplyInfo" id="list-item-mid" data-index="{{index}}">
         <text>{{item.content}}</text>
       </view>
-      <view class="list-item-down" bindtap="loadMoreReply" wx:if="{{item.loadMoreReplyFont}}" data-index="{{index}}" style="display:{{item.child.length == 0 ? 'none' : 'block'}}">——展开{{item.child_count}}条评论回复→</view>
+      <view class="list-item-down" bindtap="loadMoreReply" wx:if="{{item.loadMoreReplyFont}}" data-index="{{index}}" style="display:{{item.child.length == 0 ? 'none' : 'block'}}">
+        ——展开{{item.child_count}}条评论回复→
+      </view>
       <!-- 二级回复(双 wx:for 例子，利用item里面的child) -->
-      <view class="list-item-more" wx:key="endex"  wx:for="{{item.child}}" wx:for-item="i" wx:for-index="endex" style="display:{{item.firstlevel}}">
+      <view class="list-item-more" wx:key="endex" wx:for="{{item.child}}" wx:for-item="i" wx:for-index="endex" style="display:{{item.firstlevel}}">
         <view class="more-item-up">
           <image src="{{i.from_author_avatar}}" class="img-commenter" />
-          <view class="name-commenter">{{i.from_author}} 回复：{{i.to_reply_author}}</view>    
+          <view class="name-commenter">{{i.from_author}} 回复：{{i.to_reply_author}}</view>
         </view>
         <view class="more-item-mid" catchtap="toReplyInfo" id="more-item-mid" data-endex="{{endex}}" data-index="{{index}}">
           <text>{{i.content}}</text>
         </view>
       </view>
-      <view class="more-item-down" bindtap="loadMoreReply2" wx:if="{{item.loadMoreReplyFont2}}" data-index="{{index}}" style="display:{{item.firstlevel}}">——展开更多回复→</view>
-      <view class="more-item-hidden" bindtap="hiddenReply" data-index="{{index}}" style="display:{{item.hiddenText}}">————收起————</view>    
+      <view class="more-item-down" bindtap="loadMoreReply2" wx:if="{{item.loadMoreReplyFont2}}" data-index="{{index}}" style="display:{{item.firstlevel}}">
+        ——展开更多回复→
+      </view>
+      <view class="more-item-hidden" bindtap="hiddenReply" data-index="{{index}}" style="display:{{item.hiddenText}}">
+        ————收起————
+      </view>
     </view>
   </view>
   <view class="loading-more" bindtap="loadMoreComment" wx:if="{{loadMoreFont}}">加载更多</view>
-  <view class="loading-more" wx:else>无更多评论</view>  
+  <view class="loading-more" wx:else>无更多评论</view>
 </view>
-
 <!-- 评论输入分享Bar -->
 <view class="commentMore {{commentMoreShow ? 'emoji-move-in' : 'emoji-move-out'}} {{commentMoreLoad ? 'no-emoji-move' : ''}}">
-  <template is="commentMoreBar" data="{{valueInput: valueInput, focus: focus, sayTo: sayTo}}"/>
+  <template is="commentMoreBar" data="{{valueInput: valueInput, focus: focus, sayTo: sayTo}}" />
 </view>
+<!-- dialog打赏栏 -->
+<van-dialog use-slot show="{{ payshow }}" show-cancel-button bind:close="payClose" show-confirm-button="{{false}}" cancel-button-text="{{'先溜了...'}}" cancel-button-color="{{'#00CC66'}}" >
+  <view class="red-envelope">
+    <view class="red-envelope-rmb">
+      <image src="../../images/appreciation.png" />
+      <text >打赏￥2</text>
+    </view>
+    <view class="red-envelope-rmb">
+      <image src="../../images/appreciation.png" />
+      <text >打赏￥5</text>
+    </view>
+    <view class="red-envelope-rmb">
+      <image src="../../images/appreciation.png" />
+      <text >打赏￥10</text>
+    </view>        
+  </view>
+</van-dialog>
