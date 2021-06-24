@@ -12,6 +12,7 @@ Page({
     article: {}, // 内容数据
     articleTitle: '',
     commentList: [],  //评论列表
+    likeList: [], //点赞人列表
     commentCount: 0,  //评论数量总计
     commentTemp:1,    //当前评论加载1页 
     commentMoreShow: false, //控制comment-more是否显示
@@ -19,11 +20,13 @@ Page({
     focus: false,   //在准确回复评论的时候用来聚焦输入框用！
     replyUserInfo: {}, //关于当前用户，回复人，评论人暂存信息
     replyInfo: {},  //回复暂存信息
+    loadMoreFont: true //控制loadMoreComment
 
   },
   onLoad: function (options) {
     this.getArticleDetail(options.id);
     this.getSingleArticleCommentList(1, 5, 1, 3, options.id)
+    this.getArticleLikes(options.id)
     this.setData({
       articleTitle: options.title,
       singleArticleId: options.id,
@@ -79,11 +82,10 @@ Page({
         Authorization: `Bearer ${wx.getStorageSync('token')}`,
       },
     }).then(res => {
-      let totalChildCount = 0
-      let comment = []
+      const oldGetComment = this.data.commentList
+      let newGetComment = []
       res.data.data.rows.forEach(element => {
-        totalChildCount += element.child_count
-        comment.push({
+        newGetComment.push({
           ...element,
           hiddenText: "none",   //收起按钮的display
           replyLoadTempIn: 1,  //当前回复加载1页  需要被添加进comment中作为一个属性，解决各评论中的回复能被层层打开而不耦合
@@ -93,30 +95,88 @@ Page({
           //注意(更多回复按钮或者更多评论回复按钮)，都需要loadMoreReplyFont/2和firstlevel一起控制，利用wx:if和style的双重控制
         })
       });
-      // for(let i=0; i< res.data.data.rows.length; i++) {
-      //   totalChildCount += res.data.data.rows[i].child_count
-      // }
       this.setData({
-        commentList: comment,
-        commentCount: res.data.data.rows.length + totalChildCount
+        commentList: oldGetComment.concat(newGetComment),
+        commentCount: res.data.data.count
       })
-      //console.log(this.data.commentList)
+      if(res.data.data.count <= 5) {
+        this.setData({
+          loadMoreFont: false
+        })
+      }    
     })    
   },
+  getArticleLikes(article_id) {
+    wx.request({
+      url: Api.fetchGetArticleLike(),
+      method: 'GET',
+      data: {      
+        id: article_id,
+      },
+      header: {
+        'content-type': 'application/json',
+        cookie: wx.getStorageSync('cookie'),
+        Authorization: `Bearer ${wx.getStorageSync('token')}`,
+      },
+    }).then(res => {
+      this.setData({
+        likeList: res.data.data
+      })
+    })
+  },
+  clickLike() {
+    wx.request({
+      url: Api.fetchAdcArticleLike(),
+      method: 'POST',
+      data: {      
+        article_id: this.data.singleArticleId,
+      },
+      header: {
+        'content-type': 'application/json',
+        cookie: wx.getStorageSync('cookie'),
+        Authorization: `Bearer ${wx.getStorageSync('token')}`,
+      },
+    }).then(res => {
+      wx.showToast({
+        title: res.data.message,
+        icon: 'success',
+        duration: 2000
+      })
+      this.getArticleLikes(this.data.singleArticleId)           
+    })
+  },
+  loadMoreComment() {
+    if(this.data.commentTemp * 5 < this.data.commentCount) {
+      this.getSingleArticleCommentList(this.data.commentTemp + 1, 5, 1, 3, this.data.singleArticleId)     
+      const nowtemp = this.data.commentTemp + 1
+      if((this.data.commentTemp + 1) * 5 >= this.data.commentCount) {
+        this.setData({
+          loadMoreFont: false
+        })
+      }
+      this.setData({
+        commentTemp: nowtemp
+      })        
+    }else {
+      this.setData({
+          loadMoreFont: false
+      })
+    }
+  },
   loadMoreReply(e) {
-    console.log(this.data.commentList)
+    //console.log(this.data.commentList)
     // console.log(e.currentTarget)
     this.data.commentList[e.currentTarget.dataset.index].loadMoreReplyFont = false
-    this.data.commentList[e.currentTarget.dataset.index].firstlevel = 'block'
+    this.data.commentList[e.currentTarget.dataset.index].firstlevel = 'flex'
     if(this.data.commentList[e.currentTarget.dataset.index].child.length > 3 || this.data.commentList[e.currentTarget.dataset.index].child_count <= 3 ) {
-      this.data.commentList[e.currentTarget.dataset.index].hiddenText = 'block'
+      this.data.commentList[e.currentTarget.dataset.index].hiddenText = 'flex'
     }
     this.setData({
       commentList: this.data.commentList,  //一定要这一步才能做到数组的监听setData是关键,同时监听loadMoreReplyFont和firstlevel
     })
   },
   loadMoreReply2(e) {
-    //在事件中，是拿不到getSingleArticleCommentList的，只能重新建立一个接口
+    //不能用getSingleArticleCommentList的，重新建立一个接口
     //console.log(e.currentTarget)
     if(this.data.commentList[e.currentTarget.dataset.index].replyLoadTempIn * 3 < this.data.commentList[e.currentTarget.dataset.index].child_count) {
       let oldComment = this.data.commentList
@@ -136,14 +196,14 @@ Page({
           Authorization: `Bearer ${wx.getStorageSync('token')}`,
         },
       }).then(res => {
-        const nowCommentReply = res.data.data.rows[e.currentTarget.dataset.index].child
+        const nowCommentReply = res.data.data.rows[e.currentTarget.dataset.index - (this.data.commentTemp -1)*5].child
         let newCommentReply = oldComment[e.currentTarget.dataset.index].child.concat(nowCommentReply)
         oldComment[e.currentTarget.dataset.index].child = newCommentReply
-        oldComment[e.currentTarget.dataset.index].firstlevel = 'block'
+        oldComment[e.currentTarget.dataset.index].firstlevel = 'flex'
         oldComment[e.currentTarget.dataset.index].replyLoadTempIn += 1
         if ( (this.data.commentList[e.currentTarget.dataset.index].replyLoadTempIn + 1) * 3 >= this.data.commentList[e.currentTarget.dataset.index].child_count) {
           oldComment[e.currentTarget.dataset.index].loadMoreReplyFont2 = false
-          oldComment[e.currentTarget.dataset.index].hiddenText = 'block'         
+          oldComment[e.currentTarget.dataset.index].hiddenText = 'flex'         
         }
         this.setData({
           commentList: oldComment

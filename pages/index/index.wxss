@@ -31,10 +31,10 @@
 }
 
 .article-container .loading-more {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
 }
 
 /*   index   swiper  */

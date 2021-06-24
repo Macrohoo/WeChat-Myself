@@ -101,7 +101,6 @@ Page({
     })    
   },
   loadMore() {
-    console.log("haha")
     if(this.data.loadtemp * 10 < this.data.allArticleCount) {
         this.getArticleList(this.data.loadtemp + 1, 10)
         const nowtemp = this.data.loadtemp + 1

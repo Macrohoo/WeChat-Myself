@@ -2,7 +2,7 @@
     <view class="comment-more-bar">
         <form catchsubmit="formReplySubmit" id="comment-form">
             <view class="comment-bar">
-                <image src="../../images/1-1604211605260-L.png" class="img-plus" catchtap="goUser"></image>
+                <image src="../../images/personcat.png" class="img-plus" catchtap="goUser"></image>
                 <input class="comment-input" id="comment-input" type='text' confirm-type="send" cursor-spacing="10" maxlength="60" name="inputComment" value="{{valueInput}}" placeholder="{{sayTo.length == 0 ? ':回复评论文章' : sayTo}}" bindconfirm="formReplySubmit" focus="{{focus}}" bindfocus="onRepleyFocus" />
                 <view class="commnet-reset" catchtap="commentReset">清空</view>
                 <button class="comment-button" formType="submit">发送</button>
@@ -13,8 +13,9 @@
             <view class="more-forward">
                 <image src="../../images/forwarding.png"></image>
                 <text >转发</text>
+                <button class="share-button" open-type="share"></button>                
             </view>
-            <view class="more-like">
+            <view class="more-like" catchtap="clickLike">
                 <image src="../../images/like-on.png"></image>
                 <text >点赞</text>
             </view>
