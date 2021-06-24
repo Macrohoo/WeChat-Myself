@@ -28,6 +28,18 @@ module.exports = {
         return url
     },
 
+    //点赞用户信息获取接口
+    fetchGetArticleLike: function() {
+        var url = HOST_URI + '/article/articleLike'
+        return url        
+    },
+
+    //点赞或取消点赞接口
+    fetchAdcArticleLike: function() {
+        var url = HOST_URI + '/article/adcArticleLike'
+        return url        
+    },
+
     //获取具体标签文章列表
     fetchGetArticleInLabel() {
         var url = HOST_URI + '/article/articleInLabel'

@@ -7,7 +7,7 @@ wxApiInterceptors({
   request: {
     response(res) {
       if(res.statusCode == 200 && res.data.code == 11000) {
-        wx.setStorageSync('token', res.data.data.access_token)
+        wx.setStorageSync('token', res.data.data.message)
         wx.reLaunch({
           url: '/pages/user/user'
         })        

@@ -7,12 +7,12 @@
 <!-- 点赞块 -->
 <view class="likeBlock">
   <view class="likeUp">
-    <view class="likeTitle">{{likeCount}}人已赞</view>
-    <image src="../../images/like-on.png" class="img-like" id="liketop" catchtap="clickLike"></image>
+    <view class="likeTitle">{{likeList.length}}人已赞</view>
+    <image src="../../images/like-on.png" class="img-like" id="likeup" catchtap="clickLike"></image>
   </view>
   <view class="likeDown">
     <block wx:key="index" wx:for="{{likeList}}">
-      <image src="{{item}}" class="gravatarLikeImg"></image>
+      <image src="{{item.avatar}}" class="gravatarLikeImg"></image>
     </block>
   </view>
 </view>
@@ -20,7 +20,7 @@
 <view class="cmt">
   <view class="comment-top">评论交流(点击评论内容可以回复)</view>
   <view class="comment-content">
-    <view class="commentUp">{{commentCount}}人已评论</view>
+    <view class="commentUp">{{commentCount}}人评论</view>
   </view>
   <view class="comment-list">
     <!-- 一级评论 -->
@@ -47,6 +47,8 @@
       <view class="more-item-hidden" bindtap="hiddenReply" data-index="{{index}}" style="display:{{item.hiddenText}}">————收起————</view>    
     </view>
   </view>
+  <view class="loading-more" bindtap="loadMoreComment" wx:if="{{loadMoreFont}}">加载更多</view>
+  <view class="loading-more" wx:else>无更多评论</view>  
 </view>
 
 <!-- 评论输入分享Bar -->
