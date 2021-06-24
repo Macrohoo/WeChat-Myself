@@ -20,7 +20,7 @@
                 <text >点赞</text>
             </view>
             <view class="more-pay">
-                <image src="../../images/appreciation.png"></image>
+                <image src="../../images/appreciation.png" catchtap="clickpay"></image>
                 <text >打赏</text>
             </view>                        
         </view>

@@ -261,3 +261,29 @@
     bottom: -100rpx;
   }
 }
+
+
+.red-envelope {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+
+.red-envelope .red-envelope-rmb {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.red-envelope .red-envelope-rmb image {
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.red-envelope .red-envelope-rmb text {
+  color: #4c4c4c;
+  font-size: 30rpx;  
+}

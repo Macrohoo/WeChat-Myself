@@ -1,0 +1,22 @@
+{
+  "name": "wechat-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marhooo/WeChat-Blog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Marhooo/WeChat-Blog/issues"
+  },
+  "homepage": "https://github.com/Marhooo/WeChat-Blog#readme",
+  "dependencies": {
+    "@vant/weapp": "^1.6.9"
+  }
+}
