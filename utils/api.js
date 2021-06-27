@@ -71,8 +71,32 @@ module.exports = {
     },
 
     //回复评论
-    fetchreplyComment: function() {
+    fetchReplyComment: function() {
         var url = HOST_URI + '/comment/replyComment'
         return url          
+    },
+
+    //创建小程序支付订单
+    fetchaddPayOrder: function() {
+        var url = HOST_URI + '/payment/addPayOrder'
+        return url        
+    },
+
+    //统一微信小程序下单拿prepay_id 且关闭已超时订单
+    fetchPayWechatMini: function() {
+        var url = HOST_URI + '/payment/payWechatMini'
+        return url 
+    },
+
+    //查询微信小程序订单状态(并且如果订单支付成功，修改支付状态到数据库)
+    fetchInquirePayWechatMini: function() {
+        var url = HOST_URI + '/payment/inquirePayWechatMini'
+        return url
+    },
+
+    //文件下载
+    fetchDownload: function() {
+        var url = HOST_URI + '/flie/downloadFile'
+        return url        
     }
 }

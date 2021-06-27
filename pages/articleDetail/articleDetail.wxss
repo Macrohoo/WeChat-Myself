@@ -278,6 +278,10 @@
   align-items: center;
 }
 
+.red-envelope .black {
+  pointer-events: none;
+}
+
 .red-envelope .red-envelope-rmb image {
   width: 150rpx;
   height: 150rpx;

@@ -1,7 +1,6 @@
 const Api = require('../../utils/api');
-
-// index.js
 const app = getApp();
+
 Page({
   data: {
     valueInput: '', //为了清空输入框
@@ -11,25 +10,45 @@ Page({
     isLoading: true, // 判断是否尚在加载中
     article: {}, // 内容数据
     articleTitle: '',
-    commentList: [],  //评论列表
+    commentList: [],  //评论列表  (暂时未实现评论后即使显示，可以通过评论回复后直接对commentList做虚拟修改实现，不需要去获取接口数据)
     likeList: [], //点赞人列表
     commentCount: 0,  //评论数量总计
-    commentTemp:1,    //当前评论加载1页 
+    commentTemp:1,    //当前评论加载1页
     commentMoreShow: false, //控制comment-more是否显示
     commentMoreLoad: true, //解决comment-more只会执行一次的问题
     focus: false,   //在准确回复评论的时候用来聚焦输入框用！
     replyUserInfo: {}, //关于当前用户，回复人，评论人暂存信息
     replyInfo: {},  //回复暂存信息
     loadMoreFont: true, //控制loadMoreComment
-    payshow: false
+    payshow: false,
+    prepayInfo: {}, //支付调用参数
+    stopclickpay: false //控制红包被多次点击
 
+  },
+  //睡线程函数
+  sleep(numberMillis) {
+    var now = new Date();
+    var exitTime = now.getTime() + numberMillis;
+    while (true) {
+    now = new Date();
+    if (now.getTime() > exitTime) return;
+    }
+  },  
+  //支付
+  paytap(e) {
+    if(e.currentTarget.id == 'pay2') {
+      this.payWeChat(2, 2, '打赏2元')         
+    } else if(e.currentTarget.id == 'pay5') {
+      this.payWeChat(5, 5, '打赏5元')
+    } else if(e.currentTarget.id == 'pay10') {
+      this.payWeChat(10, 10, '打赏10元')
+    }
   },
   clickpay() {
     this.setData({
       payshow: true
     })
   },
-
   payClose() {
     this.setData({ payshow: false });
   },  
@@ -42,6 +61,111 @@ Page({
       singleArticleId: options.id,
       articleAuthorId: options.authorid
     });
+  },
+  payWeChat(original_price, pay_total, product_description) {
+    wx.request({
+      url: Api.fetchaddPayOrder(),
+      method: 'POST',
+      data: {
+        payer_client_ip: app.globalData.payer_client_ip,
+        original_price: original_price,
+        pay_total: pay_total,
+        product_description: product_description
+      },
+      header: {
+        'content-type': 'application/json',
+        cookie: wx.getStorageSync('cookie'),
+        Authorization: `Bearer ${wx.getStorageSync('token')}`,
+      },
+    }).then(res => {
+      this.setData({
+        stopclickpay: true
+      })      
+      wx.request({
+        url: Api.fetchPayWechatMini(),
+        method: 'POST',
+        data: {
+          currency: res.data.data.currency,
+          order_id: res.data.data.order_id,
+          product_description: res.data.data.product_description,
+          pay_total: res.data.data.pay_total
+        },
+        header: {
+          'content-type': 'application/json',
+          cookie: wx.getStorageSync('cookie'),
+          Authorization: `Bearer ${wx.getStorageSync('token')}`,
+        },
+      }).then(res2 => {
+        let that = this
+        this.setData({
+          prepayInfo: res2.data.data
+        })
+        wx.requestPayment({
+          "package": this.data.prepayInfo.package,
+          "timeStamp": this.data.prepayInfo.time_stamp,
+          "nonceStr": this.data.prepayInfo.noncestr,
+          "signType": this.data.prepayInfo.signtype,
+          "paySign": this.data.prepayInfo.pay_sign,
+          "success": function() {
+            console.log("支付調起成功")
+            wx.showToast({
+              title: '支付成功!',
+              icon: 'success',
+              duration: 3000
+            })
+            that.sleep(3000)
+            wx.request({
+              url: Api.fetchInquirePayWechatMini(),
+              method: 'GET',
+              data: { out_trade_no: that.data.prepayInfo.order_id },
+              header: {
+                'content-type': 'application/json',
+                cookie: wx.getStorageSync('cookie'),
+                Authorization: `Bearer ${wx.getStorageSync('token')}`,
+              },
+            })
+            that.setData({
+              stopclickpay: false
+            })            
+          },
+          "fail": function() {
+            console.log("支付調起失败")
+            wx.showToast({
+              title: '支付調用失败!',
+              icon: 'error',
+              duration: 3000
+            })
+            that.setData({
+              stopclickpay: false
+            })                           
+          },
+          "complete": function() {
+            that.sleep(3000)
+            wx.request({
+              url: Api.fetchInquirePayWechatMini(),
+              method: 'GET',
+              data: { out_trade_no: that.data.prepayInfo.order_id },
+              header: {
+                'content-type': 'application/json',
+                cookie: wx.getStorageSync('cookie'),
+                Authorization: `Bearer ${wx.getStorageSync('token')}`,
+              },
+            })
+            that.setData({
+              stopclickpay: false
+            })            
+          }
+        })        
+      }).catch(err =>{
+        this.setData({
+          stopclickpay: false
+        })        
+      })      
+    }).catch(err => {
+      this.setData({
+        stopclickpay: false
+      })
+    })    
   },
   getArticleDetail(id) {
     wx.request({
@@ -346,7 +470,7 @@ Page({
           valueInput: ''
         })        
         wx.request({
-          url: Api.fetchreplyComment(),
+          url: Api.fetchReplyComment(),
           method: 'POST',
           data: {
             content: this.data.replyInfo.content,
@@ -423,7 +547,7 @@ Page({
           valueInput: ''
         })        
         wx.request({
-          url: Api.fetchreplyComment(),
+          url: Api.fetchReplyComment(),
           method: 'POST',
           data: {
             content: this.data.replyInfo.content,
