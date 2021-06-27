@@ -1,8 +1,8 @@
 // index.js
 const Api = require('../../utils/api');
-const app = getApp();
+const Auth = require('../../utils/auth');
 
-Page({
+Auth.pageLoginCheck({
   data: {
     displaySwiper: 'none',
     showerror: 'none',
@@ -117,28 +117,13 @@ Page({
             loadMoreFont: false
         })
     }
-  },    
-  // payMent() {
-  //     wx.requestPayment
-  //     (
-  //         {
-  //             "package": "prepay_id=wx30173711335925e1821486414b85990000",
-  //             "timeStamp": "1622367429",
-  //             "nonceStr": "1622367428811",
-  //             "signType": "RSA",
-  //             "paySign": "Th1rdpy5HrQMKQWJTyvgpCKc8VzLCDKPMPtXvRSTptfVHxsH4/vi6QX4GlhRpoeMijqOYL/0ZqSgO/LQppwRzAcYmZNqwycF9ajBGRmzESGFMtghzDjkR7ItAOrmbD9dT3HcjwnES2uwkIarTqiFjIgHDTwKLIUCAi9Mm+iXY7TQNpwbA5G6AZJ7RYu4p8ZjfMfKrJWYUiQw+cJtn4e574LFUGHkW3t4OOgiy8sOZHvRgkCWr0QKFk/hLqZ+msPuVLdgO4495zi5gxCiAdMIKol7/+HgFcMEBZGCg9gN4WAnP6Kn+Hm8kB+P5+lVifjQs5f6V3b4DLxof/71V/qKCg==",
-  //             "success":function(res){
-  //                 console.log("支付調起成功")
-  //             },
-  //             "fail":function(res){
-  //                 console.log("支付調起失败")
-  //             },
-  //             "complete":function(res){}
-  //         }
-  //     )
-  // },
+  },
   onLoad() {
     this.getTopSwiper();
     this.getArticleList(1, 10)
   },
+  //触发下拉刷新
+  onPullDownRefresh() {
+    this.getArticleList(1, 10)
+  }  
 });

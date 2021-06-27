@@ -43,6 +43,8 @@ Auth.pageLoginCheck = function(pageObj) {
                 let currentInstance = getPageInstance();
                 _onLoad.call(currentInstance, options)
             } else {
+                wx.removeStorageSync('hasUserInfo')
+                wx.removeStorageSync('userInfo')                
                 wx.reLaunch({
                     url: '/pages/user/user'
                 })

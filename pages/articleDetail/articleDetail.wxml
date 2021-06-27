@@ -62,16 +62,16 @@
 </view>
 <!-- dialog打赏栏 -->
 <van-dialog use-slot show="{{ payshow }}" show-cancel-button bind:close="payClose" show-confirm-button="{{false}}" cancel-button-text="{{'先溜了...'}}" cancel-button-color="{{'#00CC66'}}" >
-  <view class="red-envelope">
-    <view class="red-envelope-rmb">
+  <view class="red-envelope" catchtap="paytap">
+    <view class="red-envelope-rmb {{stopclickpay? 'black' : 'auto'}}" id="pay2" bindtap="paytap">
       <image src="../../images/appreciation.png" />
       <text >打赏￥2</text>
     </view>
-    <view class="red-envelope-rmb">
+    <view class="red-envelope-rmb {{stopclickpay? 'black' : 'auto'}}" id="pay5" bindtap="paytap">
       <image src="../../images/appreciation.png" />
       <text >打赏￥5</text>
     </view>
-    <view class="red-envelope-rmb">
+    <view class="red-envelope-rmb {{stopclickpay? 'black' : 'auto'}}" id="pay10" bindtap="paytap">
       <image src="../../images/appreciation.png" />
       <text >打赏￥10</text>
     </view>        

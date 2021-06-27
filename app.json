@@ -8,7 +8,9 @@
   ],
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
-    "van-dialog": "@vant/weapp/dialog/index"
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-divider": "@vant/weapp/divider/index",
+    "van-field": "@vant/weapp/field/index"
   },  
   "window":{
     "backgroundTextStyle":"light",
@@ -33,7 +35,7 @@
         "pagePath": "pages/topic/topic",
         "iconPath": "images/topic-no.png",
         "selectedIconPath": "images/topic-on.png",
-        "text": "专栏"
+        "text": "失落大陆"
       },
       {
         "pagePath": "pages/user/user",

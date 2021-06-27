@@ -1,13 +1,12 @@
-// pages/user/user.js
 var app = getApp();
 //import { getRequest, postRequest } from '../../utils/wxAjax';
 //import { wxApiInterceptors } from '../../utils/wxAjax';
 const Api = require('../../utils/api');
-//const Auth = require('../../utils/auth')
 Page({
   data: {
     userInfo: {},
     hasUserInfo: false,
+    waitingLoad: false,  //遮罩层
     // wxLoginInfo: null //这个跟缓存那个内容一样
   },
   getUserInfo() {
@@ -20,8 +19,14 @@ Page({
         app.globalData.hasUserInfo = true;
         that.setData({
           userInfo: res.userInfo,
-          hasUserInfo: true,
+          hasUserInfo: true
         });
+        wx.setStorageSync('userInfo', res.userInfo)
+        wx.setStorageSync('hasUserInfo', true)
+        wx.showLoading({
+          title: '登录中...',
+          mask: true
+        })       
         wx.login({
           success: function (res) {
             wx.setStorageSync('wxLoginInfo', res);
@@ -46,6 +51,12 @@ Page({
                 console.log(api2res);
                 wx.setStorageSync('cookie', api2res.header['set-cookie']);
                 app.globalData.id = api2res.data.id
+                wx.hideLoading()
+                wx.showToast({
+                  title: '登陆成功!',
+                  icon: 'success',
+                  duration: 1000
+                })                               
               });
             });
           },
@@ -60,21 +71,16 @@ Page({
     }).then((res) => {
       let str = res.data.slice(20, -2).replace(/\"/g, '');
       app.globalData.payer_client_ip = str;
-      console.log(app.globalData.payer_client_ip);
+      //console.log(app.globalData.payer_client_ip);
     });
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  onLoad: function () {
     this.setData({
-      hasUserInfo: app.globalData.hasUserInfo,
-      userInfo: app.globalData.userInfo,
+      //用缓存配合路由守卫去控制app中的全局变量是最好的
+      hasUserInfo: wx.getStorageSync('hasUserInfo'),
+      userInfo: wx.getStorageSync('userInfo'),
     });
     this.getIp();
-    //console.log(this.data.userInfo)
-    //console.log(app.globalData.userInfo);
-    //console.log(app.globalData.hasUserInfo)
   },
 
   /**
