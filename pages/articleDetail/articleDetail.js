@@ -63,6 +63,10 @@ Page({
     });
   },
   payWeChat(original_price, pay_total, product_description) {
+    wx.showLoading({
+      title: '调用支付接口中...',
+      mask: true
+    })    
     wx.request({
       url: Api.fetchaddPayOrder(),
       method: 'POST',
@@ -100,6 +104,7 @@ Page({
         this.setData({
           prepayInfo: res2.data.data
         })
+        wx.hideLoading()        
         wx.requestPayment({
           "package": this.data.prepayInfo.package,
           "timeStamp": this.data.prepayInfo.time_stamp,
@@ -157,11 +162,13 @@ Page({
           }
         })        
       }).catch(err =>{
+        wx.hideLoading()
         this.setData({
           stopclickpay: false
         })        
       })      
     }).catch(err => {
+      wx.hideLoading()
       this.setData({
         stopclickpay: false
       })

@@ -4,13 +4,18 @@
     "pages/user/user",
     "pages/topic/topic",
     "pages/articleDetail/articleDetail",
-    "pages/tailoredArticleList/tailoredArticleList"
+    "pages/tailoredArticleInLabel/tailoredArticleInLabel",
+    "pages/tailoredArticleHot/tailoredArticleHot",
+    "pages/tailoredArticleInterested/tailoredArticleInterested"
   ],
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
     "van-dialog": "@vant/weapp/dialog/index",
     "van-divider": "@vant/weapp/divider/index",
-    "van-field": "@vant/weapp/field/index"
+    "van-field": "@vant/weapp/field/index",
+    "van-notify": "@vant/weapp/notify/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-icon": "@vant/weapp/icon/index"
   },  
   "window":{
     "backgroundTextStyle":"light",

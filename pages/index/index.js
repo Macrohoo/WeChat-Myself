@@ -13,7 +13,7 @@ Auth.pageLoginCheck({
     loadMoreFont: true
   },
   formSubmit(e) {
-    let url = '../list/list';   //这里错误的还需要改 
+    let url = '../../pages/tailoredArticleInterested/tailoredArticleInterested?currentPage=1&pageSize=10&';
     let key;
     if (e.currentTarget.id == 'search-input') {
       key = e.detail.value;  //这里是input表单触发submit事件
@@ -21,7 +21,7 @@ Auth.pageLoginCheck({
       key = e.detail.value.input; //form表单触发submit事件，但注意这里是catchsubmit冒泡拦截，event.detail = {value : {'name': 'value'} , formId: ''}，这里name是input
     }
     if (key != '') {
-      url = url + '?search=' + key;
+      url = url + 'search=' + key;
       wx.navigateTo({
         url: url,
       });
@@ -33,9 +33,15 @@ Auth.pageLoginCheck({
       });
     }
   },
+  toBannerLabel(e) {
+    const url = '../../pages/tailoredArticleInLabel/tailoredArticleInLabel?currentPage=1&pageSize=10&'
+    wx.navigateTo({
+      url: url + 'article_label=' + e.currentTarget.dataset.name,
+    });    
+  },
   getTopSwiper() {
     wx.request({
-      url: Api.fetchGetArticleLabel(),
+      url: Api.fetchGetBannerLabel(),
       method: 'GET',
       header: {
         'content-type': 'application/json',
@@ -44,9 +50,9 @@ Auth.pageLoginCheck({
       },
     })
       .then((response) => {
-        if (response.statusCode == '200' && response.data.length > 0) {
+        if (response.statusCode === 200) {
           this.setData({
-            topSwiperList: response.data,
+            topSwiperList: response.data.data,
             displaySwiper: 'block',
           });
         } else {
@@ -76,7 +82,6 @@ Auth.pageLoginCheck({
         Authorization: `Bearer ${wx.getStorageSync('token')}`
       },      
     }).then(res => {
-      console.log(res)
       const newGetArticle = res.data.data.rows
       const oldGetArticle = this.data.topicArticles
       this.setData({

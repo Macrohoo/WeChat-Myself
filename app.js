@@ -13,8 +13,6 @@ wxApiInterceptors({
         })        
       } else if (res.statusCode == 401 && res.data.code == 10000) {
         wx.removeStorageSync('token')
-        wx.removeStorageSync('hasUserInfo')
-        wx.removeStorageSync('userInfo')
         wx.reLaunch({
           url: '/pages/user/user'
         })
@@ -69,6 +67,9 @@ App({
     userInfo: null,
     isGetUserInfo: false,
     hasToken: false,
-    payer_client_ip: ""
+    payer_client_ip: "",
+    userEncryptedData: "",
+    userIv: "",
+    giveAuthorization: ""
   }
 })

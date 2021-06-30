@@ -18,7 +18,7 @@
         <view class="text-info" style="color: red">2.微信小程序不支持提取Zip和Apk类的文件，请点击获取APK下载地址，移步手机游览器粘贴网址下载辅助!</view>
         <view class="text-info">3.辅助仅支持720*1280分辨率设备，支持红手指、爱云兔云手机！(双子星、多多云不支持！)</view>
         <view class="text-info">4.辅助一律收费标准为38rmb永久，刷恶魔广场版本暂不对外开放。</view>
-        <view class="text-info">5.辅助激活码是根据设备IMEI码生成，所以一旦更换云手机设备，激活码会失效，作者不再负责！</view>
+        <view class="text-info">5.辅助激活码是根据设备IMEI码生成，所以一旦更换云手机设备，激活码会失效，原则上作者不再负责！</view>
         <view class="text-info">6.辅助支持定点挂机，支持被杀自动寻址继续挂机。</view>
         <view class="text-info">7.当前版本支持地图暂时有限，请先下载辅助APK查看支持自动挂机的地图。</view>
         <view class="text-info">
@@ -28,9 +28,10 @@
     <van-divider dashed />
     <view class="lost-code">
         <van-cell-group>
-            <van-field value="{{ sms }}" center clearable label="IMEI校验码" placeholder="请在辅助中查找此码" border="{{ false }}" use-button-slot>
-                <van-button slot="button" size="small" type="primary">获取激活码</van-button>
+            <van-field value="{{ imei }}" center clearable label="IMEI校验码" placeholder="请在辅助中查找此码" border="{{ false }}" use-button-slot bind:change="change">
+                <van-button slot="button" size="small" type="primary" bind:click="getCode">获取激活码</van-button>
             </van-field>
         </van-cell-group>
     </view>
+    <van-dialog id="van-dialog" />
 </view>

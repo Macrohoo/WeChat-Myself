@@ -22,6 +22,12 @@ module.exports = {
         return url
     },
 
+    ////获取轮播图标签add_num前四
+    fetchGetBannerLabel() {
+        var url = HOST_URI + '/articlelabel/getBannerLabel'
+        return url
+    },
+
     //获取文章列表
     fetchGetArticleList: function() {
         var url = HOST_URI + '/article/articleList'
@@ -46,13 +52,25 @@ module.exports = {
         return url        
     },
 
+    //查询热门文章
+    fetchGetArticleHot() {
+        var url = HOST_URI + '/article/articleHot'
+        return url 
+    },
+
+    //搜你感兴趣的文章
+    fetchGetArticleInterested() {
+        var url = HOST_URI + '/article/articleInterested'
+        return url         
+    },
+
     //文章详情回显
     fetchGetArticleDetail: function() {
         var url = HOST_URI + '/article/getArticle'
         return url
     },
 
-    //某篇文章的评论列表(篾条文章第一层评论附带5条reply)
+    //某篇文章的评论列表(文章第一层评论附带5条reply)
     fetchGetSingleArticleCommentList: function() {
         var url = HOST_URI + '/comment/singleArticleCommentList'
         return url        
@@ -98,5 +116,11 @@ module.exports = {
     fetchDownload: function() {
         var url = HOST_URI + '/flie/downloadFile'
         return url        
+    },
+
+    //添加IMEI返回激活码
+    fetchaddGameRawData: function() {
+        var url = HOST_URI + '/gamemonitoe/addGameRawData'
+        return url
     }
 }

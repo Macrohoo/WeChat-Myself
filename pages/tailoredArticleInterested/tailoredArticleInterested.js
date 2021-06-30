@@ -10,12 +10,12 @@ Page({
   },
   getTailoredArticleList(x, y, z) {
     wx.request({
-      url: Api.fetchGetArticleInLabel(),
+      url: Api.fetchGetArticleInterested(),
       method: 'GET',
       data:{
         currentPage: x,
         pageSize: y,
-        article_label: z
+        search: z
       },
       header: {
         'content-type': 'application/json',
@@ -23,7 +23,6 @@ Page({
         Authorization: `Bearer ${wx.getStorageSync('token')}`
       },      
     }).then(res => {
-      console.log(res)
       const newGetArticle = res.data.data.rows
       const oldGetArticle = this.data.topicArticles
       this.setData({
@@ -47,7 +46,7 @@ Page({
   },
   loadMore() {
     if(this.data.loadtemp * 10 < this.data.allArticleCount) {
-        this.getTailoredArticleList(this.data.loadtemp + 1, 10, this.data.tailoredContent)
+        this.getTailoredArticleList(this.data.loadtemp + 1, 10, this.data.searchKey)
         const nowtemp = this.data.loadtemp + 1
         this.setData({
             loadtemp: nowtemp
@@ -64,9 +63,9 @@ Page({
     }
   },
   onLoad(options) {
-    this.getTailoredArticleList(options.currentPage, options.pageSize, options.article_label)
+    this.getTailoredArticleList(options.currentPage, options.pageSize, options.search)
     this.setData({
-        searchKey: options.article_label
+        searchKey: options.search
     })
   },
 });

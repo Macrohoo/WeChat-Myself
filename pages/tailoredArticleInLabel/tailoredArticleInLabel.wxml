@@ -1,0 +1,21 @@
+<import src="../../templates/article-commonList.wxml" />
+<import src="../../templates/article-footer.wxml"/>
+<!-- 头部图片 -->
+<view class="tailored-head">
+    <view>
+        <image src="../../images/website-search.png" class="cover"></image>
+    </view>
+    <view class="tailored-head-title">
+        <text>{{searchKey}}</text>
+    </view>
+</view>
+
+
+<view class="article-container">
+  <template is="tempCommonList" data="{{topicArticles}}" />
+  <view class="loading-more" bindtap="loadMore" wx:if="{{loadMoreFont}}">加载更多</view>
+  <view class="loading-more" wx:else>无更多文章</view>
+</view>
+<view class="article-footer">
+  <template is="tempFooter"/>
+</view>

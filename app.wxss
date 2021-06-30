@@ -88,20 +88,22 @@
 .comment-more-bar {
   display: flex;
   flex-direction: column;
-  height: 180rpx;
+  height: 200rpx;
   background-color: #fff;
   box-shadow: 0 0 6px rgba(30, 20, 20, 0.1);
 }
 
 .comment-more-bar .comment-bar {
   display: flex;
-  height: 60rpx;
+  justify-content: center;
+  align-items: center;
+  height: 80rpx;
   padding: 10rpx 10rpx;
 }
 
 .comment-more-bar .comment-bar .img-plus {
-  width: 48rpx;
-  height: 48rpx;
+  width: 58rpx;
+  height: 58rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,7 +112,7 @@
 
 .comment-more-bar .comment-bar .commnet-reset {
   width: 80rpx;
-  height: 50rpx;
+  height: 60rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,7 +124,7 @@
 
 .comment-more-bar .comment-bar .comment-button {
   width: 160rpx;
-  height: 50rpx;
+  height: 60rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,7 +138,7 @@
   background-color: #f5f7f7;
   padding: 2rpx 3rpx 2rpx 10rpx;
   font-size: 20rpx;
-  height: 48rpx;
+  height: 58rpx;
   flex: 1;
   text-align: left;
   border-radius: 6px;
