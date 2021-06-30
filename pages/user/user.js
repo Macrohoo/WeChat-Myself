@@ -2,66 +2,119 @@ var app = getApp();
 //import { getRequest, postRequest } from '../../utils/wxAjax';
 //import { wxApiInterceptors } from '../../utils/wxAjax';
 const Api = require('../../utils/api');
+
 Page({
   data: {
     userInfo: {},
     hasUserInfo: false,
-    waitingLoad: false,  //遮罩层
+    giveAuthorization: false,
     // wxLoginInfo: null //这个跟缓存那个内容一样
   },
-  getUserInfo() {
-    var that = this;
-    wx.getUserProfile({
-      desc: '用于完善获取资料且唤醒授权窗口',
-      success: function (res) {
-        console.log(res);
-        app.globalData.userInfo = res.userInfo;
-        app.globalData.hasUserInfo = true;
-        that.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        });
-        wx.setStorageSync('userInfo', res.userInfo)
-        wx.setStorageSync('hasUserInfo', true)
-        wx.showLoading({
-          title: '登录中...',
-          mask: true
-        })       
-        wx.login({
-          success: function (res) {
-            wx.setStorageSync('wxLoginInfo', res);
-            //console.log({haha : wx.getStorageSync('wxLoginInfo')})
-            wx.request({
-              url: Api.fetchWxRegisterLogin(),
-              method: 'POST',
-              data: {
-                js_code: wx.getStorageSync('wxLoginInfo').code,
-                userInfo: app.globalData.userInfo,
-              },
-            }).then((apires) => {
-              wx.setStorageSync('token', apires.data.data.access_token);
-              wx.request({
-                url: Api.fetchGetUserInfo(),
-                method: 'GET',
-                header: {
-                  'content-type': 'application/json',
-                  Authorization: `Bearer ${wx.getStorageSync('token')}`,
-                },
-              }).then((api2res) => {
-                console.log(api2res);
-                wx.setStorageSync('cookie', api2res.header['set-cookie']);
-                app.globalData.id = api2res.data.id
-                wx.hideLoading()
-                wx.showToast({
-                  title: '登陆成功!',
-                  icon: 'success',
-                  duration: 1000
-                })                               
-              });
-            });
-          },
-        });
+  clearStorage() {
+    wx.showLoading({
+      title: '清理缓存中..',
+      mask: true,
+    });    
+    wx.removeStorageSync('token');
+    wx.removeStorageSync('hasUserInfo');
+    wx.removeStorageSync('userInfo');
+    wx.removeStorageSync('giveAuthorization');
+    wx.removeStorageSync('wxLoginCode')
+    wx.removeStorageSync('logs')
+    wx.hideLoading();
+    wx.showToast({
+      title: '缓存清理成功!',
+      icon: 'success',
+      duration: 1000,
+    });
+  },
+  getPhoneLogin(e) {
+    const phoneIv = e.detail.iv; //手机的加密数据都在这个指定的button api中
+    const phoneEncryptedData = e.detail.encryptedData;
+    wx.request({
+      url: Api.fetchWxRegisterLogin(),
+      method: 'POST',
+      data: {
+        js_code: wx.getStorageSync('wxLoginCode').code,
+        phoneEncryptedData: phoneEncryptedData,
+        phoneIv: phoneIv,
+        userEncryptedData: app.globalData.userEncryptedData,
+        userIv: app.globalData.userIv,
       },
+    }).then((apires) => {
+      console.log(apires);
+      wx.showLoading({
+        title: '登录中...',
+        mask: true,
+      });
+      wx.setStorageSync('token', apires.data.data.access_token);
+      wx.request({
+        url: Api.fetchGetUserInfo(),
+        method: 'GET',
+        header: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${wx.getStorageSync('token')}`,
+        },
+      }).then((api2res) => {
+        wx.setStorageSync('cookie', api2res.header['set-cookie']);
+        app.globalData.id = api2res.data.id;
+        this.setData({
+          userInfo: api2res.data,
+          hasUserInfo: true,
+        });
+        wx.setStorageSync('userInfo', api2res.data);
+        wx.setStorageSync('hasUserInfo', true);
+        wx.hideLoading();
+        wx.showToast({
+          title: '登陆成功!',
+          icon: 'success',
+          duration: 1000,
+        });
+        wx.reLaunch({
+          url: '/pages/index/index'
+        })        
+      });
+    });
+  },
+  justLogin() {
+    wx.request({
+      url: Api.fetchWxRegisterLogin(),
+      method: 'POST',
+      data: {
+        js_code: wx.getStorageSync('wxLoginCode').code,
+      },
+    }).then((apires) => {
+      wx.showLoading({
+        title: '登录中...',
+        mask: true,
+      });
+      wx.setStorageSync('token', apires.data.data.access_token);
+      wx.request({
+        url: Api.fetchGetUserInfo(),
+        method: 'GET',
+        header: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${wx.getStorageSync('token')}`,
+        },
+      }).then((api2res) => {
+        wx.setStorageSync('cookie', api2res.header['set-cookie']);
+        app.globalData.id = api2res.data.id;
+        this.setData({
+          userInfo: api2res.data,
+          hasUserInfo: true,
+        });
+        wx.setStorageSync('userInfo', api2res.data);
+        wx.setStorageSync('hasUserInfo', true);
+        wx.hideLoading();
+        wx.showToast({
+          title: '登陆成功!',
+          icon: 'success',
+          duration: 1000,
+        });
+        wx.reLaunch({
+          url: '/pages/index/index'
+        })        
+      });
     });
   },
   getIp() {
@@ -75,14 +128,42 @@ Page({
     });
   },
   onLoad: function () {
+    this.wxLogin();
     this.setData({
       //用缓存配合路由守卫去控制app中的全局变量是最好的
       hasUserInfo: wx.getStorageSync('hasUserInfo'),
       userInfo: wx.getStorageSync('userInfo'),
+      giveAuthorization: wx.getStorageSync('giveAuthorization'),
     });
+    if (
+      (wx.getStorageSync('token').length == 0 || !wx.getStorageSync('token')) &&
+      wx.getStorageSync('hasUserInfo') === true
+    ) {
+      this.justLogin();
+    }
     this.getIp();
   },
-
+  //获取jscode保证wx.login为最先
+  wxLogin() {
+    wx.login({
+      success: (res) => {
+        wx.setStorageSync('wxLoginCode', res);
+      },
+    });
+  },
+  getUser() {
+    wx.getUserProfile({
+      desc: '用于完善获取资料且唤醒授权窗口',
+      success: (res) => {
+        app.globalData.userEncryptedData = res.encryptedData;
+        app.globalData.userIv = res.iv;
+        wx.setStorageSync('giveAuthorization', true);
+        this.setData({
+          giveAuthorization: true,
+        });
+      },
+    });
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

@@ -1,11 +1,13 @@
 const Auth = require('../../utils/auth');
 const Api = require('../../utils/api');
 const app = getApp();
+import Dialog from '@vant/weapp/dialog/dialog'
 
 Auth.pageLoginCheck({
   data: {
     motto: 'Hello World',
     stopclickpay: false,  //控制支付按钮被多次点
+    imei: ''
     //progress: null, //下载进度
   },
   //睡线程函数
@@ -16,10 +18,63 @@ Auth.pageLoginCheck({
     now = new Date();
     if (now.getTime() > exitTime) return;
     }
-  },   
+  },
+  //vant的field并不好用，绑定change去改变value，那个value并不是真正的双向绑定
+  change(e) {
+    this.setData({
+      imei: e.detail
+    })
+  },
+  getCode() {
+    if(this.data.imei.length < 6 && this.data.imei.length > 0) {
+      wx.showToast({
+        title: '请输入正确格式的IMEI!',
+        icon: 'error',
+        duration: 1000
+      })      
+    }else if(this.data.imei.length == 0) {
+      wx.showToast({
+        title: 'IMEI为空!',
+        icon: 'error',
+        duration: 3000
+      })      
+    } else {
+      wx.showLoading({
+        title: '激活码获取中...',
+        mask: true
+      })      
+      wx.request({
+        url: Api.fetchaddGameRawData(),
+        method: 'POST',
+        data: {
+          imei: this.data.imei
+        },
+        header: {
+          'content-type': 'application/json',
+          cookie: wx.getStorageSync('cookie'),
+          Authorization: `Bearer ${wx.getStorageSync('token')}`,
+        },
+      }).then(res => {
+        wx.hideLoading()
+        if(res.data.code == 10404 || res.data.code == 10204) {
+          wx.showToast({
+            title: res.data.data.message,
+            icon: 'error',
+            duration: 3000
+          })          
+        } else {
+          Dialog.alert({
+            title: '激活码',
+            message: res.data.data.vcode,
+            theme: 'round-button',
+          })
+        }
+      })
+    }
+  }, 
   copyLink() {
     wx.setClipboardData({
-      data: `${Api.fetchDow击nload()}?querytime=${Math.round(new Date().getTime() / 1000) + 6 * 60}`,
+      data: `${Api.fetchDownload()}?querytime=${Math.round(new Date().getTime() / 1000) + 6 * 60}`,
       success: function (res) {
         wx.getClipboardData();
       },
@@ -29,6 +84,10 @@ Auth.pageLoginCheck({
     this.payWeChat(38, 38, '购买辅助', '1')
   },
   payWeChat(original_price, pay_total, product_description, pay_for) {
+    wx.showLoading({
+      title: '调用支付接口中...',
+      mask: true
+    })    
     wx.request({
       url: Api.fetchaddPayOrder(),
       method: 'POST',
@@ -68,6 +127,7 @@ Auth.pageLoginCheck({
         this.setData({
           prepayInfo: res2.data.data
         })
+        wx.hideLoading()
         wx.requestPayment({
           "package": this.data.prepayInfo.package,
           "timeStamp": this.data.prepayInfo.time_stamp,
@@ -125,11 +185,13 @@ Auth.pageLoginCheck({
           }
         })        
       }).catch(err =>{
+        wx.hideLoading()
         this.setData({
           stopclickpay: false
         })        
       })      
     }).catch(err => {
+      wx.hideLoading()
       this.setData({
         stopclickpay: false
       })

@@ -5,7 +5,7 @@
 <view class="index-header" style="display:{{displaySwiper}}">
   <swiper class="index-swiper" indicator-dots="true" interval="10000" autoplay="true" indicator-color="rgba(255, 255, 255, .2)" indicator-active-color="rgba(255, 255, 255, .7)">
     <block wx:key="index" wx:for="{{topSwiperList}}">
-      <swiper-item id="{{item.id}}" index="{{index}}" data-name="{{item.label_name}}" bindtap=" ">
+      <swiper-item wx:key="index" data-name="{{item.label_name}}" bindtap="toBannerLabel">
         <image class="itemImg" mode="scaleToFill" src="{{item.label_src}}" style="width:95%" />
         <view class="swiper-mask"></view>
         <view class="swiper-desc">
@@ -36,25 +36,25 @@
     <view class="cms-tit-more"></view>
   </view>
   <view class='top-Nav2'>
-    <navigator url='../hot/hot' hover-class='none'>
+    <navigator url='../../pages/tailoredArticleHot/tailoredArticleHot?currentPage=1&pageSize=10' hover-class='none'>
       <view class='.top-Nav2-item'>
         <image src='../../images/star.png'></image>
         <text>热门排行</text>
       </view>
     </navigator>
-    <navigator url="../../pages/tailoredArticleList/tailoredArticleList?currentPage=1&pageSize=10&article_label=JavaScript" hover-class='none'>
+    <navigator url="../../pages/tailoredArticleInLabel/tailoredArticleInLabel?currentPage=1&pageSize=10&article_label=JavaScript" hover-class='none'>
       <view class='.top-Nav2-item'>
         <image src='../../images/JavaScript.svg'></image>
         <text>JS</text>
       </view>
     </navigator>
-    <navigator url="../../pages/list/list?categoryID=26" hover-class='none'>
+    <navigator url="../../pages/tailoredArticleInLabel/tailoredArticleInLabel?currentPage=1&pageSize=10&article_label=Vue" hover-class='none'>
       <view class='.top-Nav2-item'>
         <image src='../../images/Vue.png'></image>
         <text>Vue</text>
       </view>
     </navigator>
-    <navigator url="../../pages/list/list?categoryID=39" hover-class='none'>
+    <navigator url="../../pages/tailoredArticleInLabel/tailoredArticleInLabel?currentPage=1&pageSize=10&article_label=Element" hover-class='none'>
       <view class='.top-Nav2-item'>
         <image src='../../images/elementui.png'></image>
         <text>Element</text>
