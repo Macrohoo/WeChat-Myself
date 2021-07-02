@@ -54,10 +54,10 @@
         <text>Vue</text>
       </view>
     </navigator>
-    <navigator url="../../pages/tailoredArticleInLabel/tailoredArticleInLabel?currentPage=1&pageSize=10&article_label=Element" hover-class='none'>
+    <navigator url="../../pages/tailoredArticleInLabel/tailoredArticleInLabel?currentPage=1&pageSize=10&article_label=LostC" hover-class='none'>
       <view class='.top-Nav2-item'>
-        <image src='../../images/elementui.png'></image>
-        <text>Element</text>
+        <image src='../../images/lostc.png'></image>
+        <text>LostC</text>
       </view>
     </navigator>
   </view>

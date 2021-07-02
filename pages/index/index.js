@@ -96,7 +96,7 @@ Auth.pageLoginCheck({
     })
   },
   redictDetail(e) {
-    console.log(e.currentTarget)
+    //console.log(e.currentTarget)
     const id = e.currentTarget.id
     const title = e.currentTarget.dataset.title
     const authorid = e.currentTarget.dataset.authorid

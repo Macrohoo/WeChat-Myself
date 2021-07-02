@@ -202,6 +202,7 @@ swiper .swiper-desc {
 }
 
 .top-Nav2-item text {
+  padding-top: 5rpx;
   align-items: center;
   line-height: 20rpx;
   font-size: 24rpx;

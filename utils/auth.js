@@ -12,10 +12,10 @@ Auth.pageLoginCheck = function(pageObj) {
     if(pageObj.onLoad) {
         let _onLoad = pageObj.onLoad
         pageObj.onLoad = function (options) {
-            if(wx.getStorageSync('token')) {
+            if(wx.getStorageSync('token').length > 0) {
                 let currentInstance = getPageInstance();
                 _onLoad.call(currentInstance, options)
-            } else {           
+            } else {         
                 wx.reLaunch({
                     url: '/pages/user/user'
                 })

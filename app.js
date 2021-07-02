@@ -6,13 +6,16 @@ import wxApiInterceptors from './utils/wxAjax';
 wxApiInterceptors({
   request: {
     response(res) {
+      //console.log({haha: res})
       if(res.statusCode == 200 && res.data.code == 11000) {
-        wx.setStorageSync('token', res.data.data.message)
-        wx.reLaunch({
-          url: '/pages/user/user'
-        })        
+        wx.setStorageSync('token', res.data.data.access_token)
+        //return Promise.resolve(res)
+        // wx.reLaunch({
+        //   url: '/pages/user/user'
+        // })        
       } else if (res.statusCode == 401 && res.data.code == 10000) {
         wx.removeStorageSync('token')
+        wx.removeStorageSync('cookie')
         wx.reLaunch({
           url: '/pages/user/user'
         })
