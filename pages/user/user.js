@@ -14,13 +14,14 @@ Page({
     wx.showLoading({
       title: '清理缓存中..',
       mask: true,
-    });    
+    });
     wx.removeStorageSync('token');
     wx.removeStorageSync('hasUserInfo');
     wx.removeStorageSync('userInfo');
     wx.removeStorageSync('giveAuthorization');
-    wx.removeStorageSync('wxLoginCode')
-    wx.removeStorageSync('logs')
+    wx.removeStorageSync('wxLoginCode');
+    wx.removeStorageSync('cookie');
+    wx.removeStorageSync('logs');
     wx.hideLoading();
     wx.showToast({
       title: '缓存清理成功!',
@@ -57,12 +58,12 @@ Page({
         },
       }).then((api2res) => {
         wx.setStorageSync('cookie', api2res.header['set-cookie']);
-        app.globalData.id = api2res.data.id;
+        app.globalData.id = api2res.data.data.id;
         this.setData({
-          userInfo: api2res.data,
+          userInfo: api2res.data.data,
           hasUserInfo: true,
         });
-        wx.setStorageSync('userInfo', api2res.data);
+        wx.setStorageSync('userInfo', api2res.data.data);
         wx.setStorageSync('hasUserInfo', true);
         wx.hideLoading();
         wx.showToast({
@@ -71,10 +72,24 @@ Page({
           duration: 1000,
         });
         wx.reLaunch({
-          url: '/pages/index/index'
-        })        
+          url: '/pages/index/index',
+        });
+      }).catch(err => {
+        wx.hideLoading();
+        wx.showToast({
+          title: '登录失败!',
+          icon: 'error',
+          duration: 1000,
+        });
+      })
+    }).catch(err => {
+      wx.hideLoading();
+      wx.showToast({
+        title: '登录失败!',
+        icon: 'error',
+        duration: 1000,
       });
-    });
+    })
   },
   justLogin() {
     wx.request({
@@ -84,11 +99,12 @@ Page({
         js_code: wx.getStorageSync('wxLoginCode').code,
       },
     }).then((apires) => {
+      console.log(apires)
       wx.showLoading({
         title: '登录中...',
         mask: true,
       });
-      wx.setStorageSync('token', apires.data.data.access_token);
+      wx.setStorageSync('token', apires.data.data.access_token);   //这里错了
       wx.request({
         url: Api.fetchGetUserInfo(),
         method: 'GET',
@@ -98,12 +114,12 @@ Page({
         },
       }).then((api2res) => {
         wx.setStorageSync('cookie', api2res.header['set-cookie']);
-        app.globalData.id = api2res.data.id;
+        app.globalData.id = api2res.data.data.id;
         this.setData({
-          userInfo: api2res.data,
+          userInfo: api2res.data.data,
           hasUserInfo: true,
         });
-        wx.setStorageSync('userInfo', api2res.data);
+        wx.setStorageSync('userInfo', api2res.data.data);
         wx.setStorageSync('hasUserInfo', true);
         wx.hideLoading();
         wx.showToast({
@@ -112,10 +128,24 @@ Page({
           duration: 1000,
         });
         wx.reLaunch({
-          url: '/pages/index/index'
-        })        
-      });
-    });
+          url: '/pages/index/index'          
+        });
+      }).catch(err => {
+        wx.hideLoading();
+        wx.showToast({
+          title: '登录失败!',
+          icon: 'error',
+          duration: 1000,
+        });
+      })
+    }).catch(err => {
+      wx.hideLoading();
+      wx.showToast({
+        title: '登录失败!',
+        icon: 'error',
+        duration: 1000,
+      });      
+    })
   },
   getIp() {
     wx.request({
@@ -124,24 +154,7 @@ Page({
     }).then((res) => {
       let str = res.data.slice(20, -2).replace(/\"/g, '');
       app.globalData.payer_client_ip = str;
-      //console.log(app.globalData.payer_client_ip);
     });
-  },
-  onLoad: function () {
-    this.wxLogin();
-    this.setData({
-      //用缓存配合路由守卫去控制app中的全局变量是最好的
-      hasUserInfo: wx.getStorageSync('hasUserInfo'),
-      userInfo: wx.getStorageSync('userInfo'),
-      giveAuthorization: wx.getStorageSync('giveAuthorization'),
-    });
-    if (
-      (wx.getStorageSync('token').length == 0 || !wx.getStorageSync('token')) &&
-      wx.getStorageSync('hasUserInfo') === true
-    ) {
-      this.justLogin();
-    }
-    this.getIp();
   },
   //获取jscode保证wx.login为最先
   wxLogin() {
@@ -163,7 +176,17 @@ Page({
         });
       },
     });
+  },  
+  onLoad: function () {    
+    this.setData({
+      //用缓存配合路由守卫去控制app中的全局变量是最好的
+      hasUserInfo: wx.getStorageSync('hasUserInfo'),
+      userInfo: wx.getStorageSync('userInfo'),
+      giveAuthorization: wx.getStorageSync('giveAuthorization'),
+    });   
+    this.getIp();
   },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -172,7 +195,31 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {},
+  onShow: function () {
+    this.wxLogin();   //把wxLogin放在onshow中至关重要。放onload中后端调用auth.code2Session可能会code无效。
+    //但其实这个checkSession内置接口Api有bug，始终返回success
+    wx.checkSession({
+      success: (res) => {
+        //session_key 未过期，并且在本生命周期一直有效
+        if (
+          (wx.getStorageSync('token').length == 0 || !wx.getStorageSync('token')) &&
+          wx.getStorageSync('hasUserInfo') === true
+        ) {
+          this.justLogin();
+        }
+      },
+      fail: (res) => {
+        // session_key 已经失效，需要重新执行登录流程
+        this.wxLogin() //重新登录
+        if (
+          (wx.getStorageSync('token').length == 0 || !wx.getStorageSync('token')) &&
+          wx.getStorageSync('hasUserInfo') === true
+        ) {
+          this.justLogin();
+        }        
+      }
+    })    
+  },
 
   /**
    * 生命周期函数--监听页面隐藏

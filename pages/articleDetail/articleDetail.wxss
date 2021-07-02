@@ -50,7 +50,7 @@
 }
 
 .cmt {
-  padding-bottom: 100rpx;
+  padding-bottom: 150rpx;
 }
 
 .comment-top {
