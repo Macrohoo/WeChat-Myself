@@ -16,13 +16,13 @@
     <view class="lost-use-text">
         <view class="text-info" style="color: red">1.请先完成微信支付，再在下方填入IMEI校验码，然后点击获取激活码！</view>
         <view class="text-info" style="color: red">2.微信小程序不支持提取Zip和Apk类的文件，请点击获取APK下载地址，移步手机游览器粘贴网址下载辅助!</view>
-        <view class="text-info">3.辅助仅支持720*1280分辨率设备，支持红手指、爱云兔云手机！(双子星、多多云不支持！)</view>
+        <view class="text-info">3.辅助仅支持安卓8及以下版本系统，720*1280分辨率设备，支持红手指、爱云兔、VmosPro虚拟机！(双子星、多多云不支持！)</view>
         <view class="text-info">4.辅助一律收费标准为38rmb永久，刷恶魔广场版本暂不对外开放。</view>
-        <view class="text-info">5.辅助激活码是根据设备IMEI码生成，所以一旦更换云手机设备，激活码会失效，原则上作者不再负责！</view>
-        <view class="text-info">6.辅助支持定点挂机，支持被杀自动寻址继续挂机。</view>
+        <view class="text-info">5.辅助激活码是根据设备IMEI码生成，加上远程锁！所以一旦更换云手机设备，激活码会失效，原则上作者不再负责！</view>
+        <view class="text-info">6.辅助支持指定地图定点挂机，支持被杀自动寻址继续挂机。</view>
         <view class="text-info">7.当前版本支持地图暂时有限，请先下载辅助APK查看支持自动挂机的地图。</view>
         <view class="text-info">
-            8.版本修正了恶意多次被杀导致的脚本混乱的问题，修正了对方恶意行为导致脚本混乱的问题，增加瓦伦努斯、卡鲁坦高级沙漠部分挂机点。
+            8.版本修正了恶意多次被杀导致的脚本混乱的问题，修正了对方恶意行为导致脚本混乱的问题，增加瓦伦努斯、卡鲁坦高级沙漠、尼斯湖等部分挂机点。
         </view>
     </view>
     <van-divider dashed />

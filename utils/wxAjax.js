@@ -10,7 +10,7 @@ export default (interceptors = {}) => {
             request: { response },
           } = interceptors;
           try {
-            res = (await response(res)) || res;
+            res = await response(res);
           } catch (e) {
             reject(e);
           }
@@ -26,7 +26,7 @@ export default (interceptors = {}) => {
           //所以要么在success中的cb参数回调函数中区分错误状态码reject。要么像这里那样在resFn调用函数中对错误状态码reject。要么也可以把这个处理去掉，在拦截器调用时Promise.reject出来。
           success: (v) => {
             resFn(v, (newRes) => {
-              resolve(newRes);
+              resolve(newRes)
             });
           },
           fail: (v) => {

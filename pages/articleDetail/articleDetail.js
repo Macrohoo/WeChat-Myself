@@ -195,7 +195,15 @@ Page({
         events: {
           // 为元素绑定的事件方法
           tap: (e) => {
-            console.log('tap', e);
+            if(e.currentTarget.dataset.data.attrs.src) {
+              //点击的是图片的话预览图片
+              wx.previewImage({
+                current: e.currentTarget.dataset.data.attrs.src, // 当前显示图片的http链接
+                urls: [e.currentTarget.dataset.data.attrs.src] // 需要预览的图片http链接列表，至少一张
+              })
+            } else {
+              console.log('tap', e);
+            }
           },
         },
       });

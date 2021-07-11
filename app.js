@@ -9,16 +9,20 @@ wxApiInterceptors({
       //console.log({haha: res})
       if(res.statusCode == 200 && res.data.code == 11000) {
         wx.setStorageSync('token', res.data.data.access_token)
-        //return Promise.resolve(res)
-        // wx.reLaunch({
-        //   url: '/pages/user/user'
-        // })        
+        //return Promise.resolve(res)        
       } else if (res.statusCode == 401 && res.data.code == 10000) {
         wx.removeStorageSync('token')
-        wx.removeStorageSync('cookie')
+        wx.removeStorageSync('cookie')        
         wx.reLaunch({
           url: '/pages/user/user'
         })
+      } else if (res.statusCode == 200 && res.data.code == 10030) {
+        wx.showToast({
+          title: res.data.message.warn,
+          icon: 'error',
+          duration: 3000
+        })         
+        return false
       } else {
         return Promise.resolve(res)
       }

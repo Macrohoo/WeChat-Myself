@@ -120,7 +120,7 @@ module.exports = {
 
     //添加IMEI返回激活码
     fetchaddGameRawData: function() {
-        var url = HOST_URI + '/gamemonitoe/addGameRawData'
+        var url = HOST_URI + '/gamemonitor/addGameRawData'
         return url
     }
 }
