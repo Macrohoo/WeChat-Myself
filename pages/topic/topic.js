@@ -26,13 +26,7 @@ Auth.pageLoginCheck({
     })
   },
   getCode() {
-    if(this.data.imei.length < 6 && this.data.imei.length > 0) {
-      wx.showToast({
-        title: '请输入正确格式的IMEI!',
-        icon: 'error',
-        duration: 1000
-      })      
-    }else if(this.data.imei.length == 0) {
+    if(this.data.imei.length == 0) {
       wx.showToast({
         title: 'IMEI为空!',
         icon: 'error',
@@ -55,20 +49,24 @@ Auth.pageLoginCheck({
           Authorization: `Bearer ${wx.getStorageSync('token')}`,
         },
       }).then(res => {
-        wx.hideLoading()
-        if(res.data.code == 10404 || res.data.code == 10204) {
-          wx.showToast({
-            title: res.data.data.message,
-            icon: 'error',
-            duration: 3000
-          })          
-        } else {
-          Dialog.alert({
-            title: '激活码',
-            message: res.data.data.vcode,
-            theme: 'round-button',
-          })
+        if(res) {
+          wx.hideLoading()
+          if(res.data.code == 10404 || res.data.code == 10204) {
+            wx.showToast({
+              title: res.data.message,
+              icon: 'error',
+              duration: 3000
+            })          
+          } else {
+            Dialog.alert({
+              title: '激活码',
+              message: res.data.data.vcode,
+              theme: 'round-button',
+            })
+          }
         }
+      }).catch(err => {
+        console.log(err)
       })
     }
   }, 

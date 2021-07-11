@@ -96,7 +96,7 @@ swiper .swiper-desc {
 .search-pancel {
   display: flex;
   flex-direction: row;
-  background-color: #eee;
+  background-color: #D9C4B3;
   height: 70rpx;
   padding: 20rpx 20rpx;
 }

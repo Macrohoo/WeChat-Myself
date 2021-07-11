@@ -19,15 +19,15 @@
   },  
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarBackgroundColor": "#CFAE21",
+    "navigationBarTitleText": "MBOKE",
     "navigationBarTextStyle":"black",
     "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "black",
     "selectedColor": "14b1ab",
-    "backgroundColor": "white",
+    "backgroundColor": "#CFAE21",
     "borderStyle": "black",
     "list": [
       {
