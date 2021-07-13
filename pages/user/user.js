@@ -49,7 +49,7 @@ Page({
         userIv: app.globalData.userIv,
       },
     }).then((apires) => {
-      //console.log(apires);
+      console.log(apires);
       wx.showLoading({
         title: '登录中...',
         mask: true,

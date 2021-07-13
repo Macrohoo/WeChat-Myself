@@ -1,7 +1,6 @@
 import config from 'config.js'
 var domain = config.getDomain;
-var pageCount = config.getPageCount
-var HOST_URI = 'http://' + domain
+var HOST_URI = domain
 
 module.exports = {
     //微信注册/登录接口(后台通过js_code换取Openid)换取token

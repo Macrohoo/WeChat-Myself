@@ -37,11 +37,11 @@ Page({
   //支付
   paytap(e) {
     if(e.currentTarget.id == 'pay2') {
-      this.payWeChat(2, 2, '打赏2元')         
+      this.payWeChat(200, 200, '打赏2元')         
     } else if(e.currentTarget.id == 'pay5') {
-      this.payWeChat(5, 5, '打赏5元')
+      this.payWeChat(500, 500, '打赏5元')
     } else if(e.currentTarget.id == 'pay10') {
-      this.payWeChat(10, 10, '打赏10元')
+      this.payWeChat(1000, 1000, '打赏10元')
     }
   },
   clickpay() {
@@ -195,14 +195,12 @@ Page({
         events: {
           // 为元素绑定的事件方法
           tap: (e) => {
-            if(e.currentTarget.dataset.data.attrs.src) {
+            if(e.currentTarget.dataset.data.attrs.src && e.currentTarget.dataset.data.tag == "img") {
               //点击的是图片的话预览图片
               wx.previewImage({
                 current: e.currentTarget.dataset.data.attrs.src, // 当前显示图片的http链接
                 urls: [e.currentTarget.dataset.data.attrs.src] // 需要预览的图片http链接列表，至少一张
               })
-            } else {
-              console.log('tap', e);
             }
           },
         },
