@@ -79,7 +79,7 @@ Auth.pageLoginCheck({
     });
   },
   buyAide() {
-    this.payWeChat(38, 38, '购买辅助', '1')
+    this.payWeChat(3800, 3800, '购买辅助', '1')
   },
   payWeChat(original_price, pay_total, product_description, pay_for) {
     wx.showLoading({
