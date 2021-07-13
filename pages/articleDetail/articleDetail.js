@@ -431,7 +431,9 @@ Page({
   commentReset() {
     this.setData({
       sayTo: '',
-      valueInput: ''
+      valueInput: '',
+      replyInfo: {},
+      replyUserInfo: {}
     })
   },
   //发表评论或回复评论
@@ -444,11 +446,7 @@ Page({
       this.setData({
         replyInfo: this.data.replyInfo
       })
-      if(this.data.replyInfo.toUserId === undefined) {
-        this.setData({
-          sayTo: '',
-          valueInput: ''
-        })        
+      if(this.data.replyInfo.toUserId === undefined) {      
         //发表评论
         wx.request({
           url: Api.fetchAddComment(),
@@ -464,7 +462,7 @@ Page({
             Authorization: `Bearer ${wx.getStorageSync('token')}`,
           },
         }).then(res => {
-          if (!res.data.data) {
+          if (res.data.code === 200) {
             wx.showToast({
               title: res.data.message,
               icon: 'success',
@@ -476,14 +474,16 @@ Page({
               icon: 'error',
               duration: 2000
             })             
-          }         
+          }
+          this.setData({
+            sayTo: '',
+            valueInput: '',
+            replyInfo: {},
+            replyUserInfo: {}
+          })                   
         })        
       } else {
-        //回复评论
-        this.setData({
-          sayTo: '',
-          valueInput: ''
-        })        
+        //回复评论       
         wx.request({
           url: Api.fetchReplyComment(),
           method: 'POST',
@@ -499,7 +499,7 @@ Page({
             Authorization: `Bearer ${wx.getStorageSync('token')}`,
           },
         }).then(res => {
-          if (!res.data.data) {
+          if (res.data.code === 200) {
             wx.showToast({
               title: res.data.message,
               icon: 'success',
@@ -511,7 +511,13 @@ Page({
               icon: 'error',
               duration: 2000
             })             
-          }         
+          }
+          this.setData({
+            sayTo: '',
+            valueInput: '',
+            replyInfo: {},
+            replyUserInfo: {}
+          })                  
         })         
       }
     } else if (e.currentTarget.id == 'comment-form' && e.detail.value.inputComment.length !== 0){
@@ -522,10 +528,6 @@ Page({
         replyInfo: this.data.replyInfo
       })
       if(this.data.replyInfo.toUserId === undefined) {
-        this.setData({
-          sayTo: '',
-          valueInput: ''
-        })
         //发表评论
         wx.request({
           url: Api.fetchAddComment(),
@@ -541,7 +543,7 @@ Page({
             Authorization: `Bearer ${wx.getStorageSync('token')}`,
           },
         }).then(res => {
-          if (!res.data.data) {
+          if (res.data.code === 200) {
             wx.showToast({
               title: res.data.message,
               icon: 'success',
@@ -553,14 +555,16 @@ Page({
               icon: 'error',
               duration: 2000
             })             
-          }         
+          }
+          this.setData({
+            sayTo: '',
+            valueInput: '',
+            replyInfo: {},
+            replyUserInfo: {}
+          })                  
         })        
       } else {
-        //回复评论
-        this.setData({
-          sayTo: '',
-          valueInput: ''
-        })        
+        //回复评论       
         wx.request({
           url: Api.fetchReplyComment(),
           method: 'POST',
@@ -576,7 +580,7 @@ Page({
             Authorization: `Bearer ${wx.getStorageSync('token')}`,
           },
         }).then(res => {
-          if (!res.data.data) {
+          if (res.data.code === 200) {
             wx.showToast({
               title: res.data.message,
               icon: 'success',
@@ -588,7 +592,13 @@ Page({
               icon: 'error',
               duration: 2000
             })             
-          }         
+          }
+          this.setData({
+            sayTo: '',
+            valueInput: '',
+            replyInfo: {},
+            replyUserInfo: {}
+          })                  
         })         
       }      
     } else {
