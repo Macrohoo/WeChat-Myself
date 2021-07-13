@@ -20,4 +20,7 @@
     <van-cell title="清除缓存" bind:click='clearStorage'>
         <van-icon name="warn-o" size="50rpx" color="#EF0924" />
     </van-cell>
+    <van-cell title="我的发表" bind:click='myArticle'>
+        <van-icon name="fire-o" size="50rpx" color="#1989fa" />
+    </van-cell>    
 </view>

@@ -37,9 +37,10 @@ Page({
     })
   },
   redictDetail(e) {
-    console.log(e.currentTarget)
     const id = e.currentTarget.id
-    const url = '../articleDetail/articleDetail?id=' + id;
+    const title = e.currentTarget.dataset.title
+    const authorid = e.currentTarget.dataset.authorid
+    const url = `../articleDetail/articleDetail?id=${id}&title=${title}&authorid=${authorid}`
     wx.navigateTo({
       url: url
     })    

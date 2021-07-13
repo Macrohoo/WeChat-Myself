@@ -6,7 +6,8 @@
     "pages/articleDetail/articleDetail",
     "pages/tailoredArticleInLabel/tailoredArticleInLabel",
     "pages/tailoredArticleHot/tailoredArticleHot",
-    "pages/tailoredArticleInterested/tailoredArticleInterested"
+    "pages/tailoredArticleInterested/tailoredArticleInterested",
+    "pages/tailoredArticleYouself/tailoredArticleYouself"
   ],
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",

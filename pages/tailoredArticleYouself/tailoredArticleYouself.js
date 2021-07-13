@@ -6,15 +6,15 @@ Page({
     loadtemp: 1,
     allArticleCount: 0,
     loadMoreFont: true,
-    searchKey: '热门文章',
+    searchKey: '您发表的文章',
   },
   getTailoredArticleList(x, y) {
     wx.request({
-      url: Api.fetchGetArticleHot(),
+      url: Api.fetchGetArticleYouself(),
       method: 'GET',
       data: {
         currentPage: x,
-        pageSize: y
+        pageSize: y,
       },
       header: {
         'content-type': 'application/json',
@@ -36,10 +36,10 @@ Page({
     });
   },
   redictDetail(e) {
-    const id = e.currentTarget.id
-    const title = e.currentTarget.dataset.title
-    const authorid = e.currentTarget.dataset.authorid
-    const url = `../articleDetail/articleDetail?id=${id}&title=${title}&authorid=${authorid}`
+    const id = e.currentTarget.id;
+    const title = e.currentTarget.dataset.title;
+    const authorid = e.currentTarget.dataset.authorid;
+    const url = `../articleDetail/articleDetail?id=${id}&title=${title}&authorid=${authorid}`;
     wx.navigateTo({
       url: url,
     });

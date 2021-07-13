@@ -29,6 +29,12 @@ Page({
       duration: 1000,
     });
   },
+  myArticle() {
+    const url = '../../pages/tailoredArticleYouself/tailoredArticleYouself?currentPage=1&pageSize=10&]';
+    wx.navigateTo({
+      url: url,
+    });
+  },
   getPhoneLogin(e) {
     const phoneIv = e.detail.iv; //手机的加密数据都在这个指定的button api中
     const phoneEncryptedData = e.detail.encryptedData;

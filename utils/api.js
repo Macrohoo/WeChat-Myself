@@ -64,6 +64,12 @@ module.exports = {
         return url         
     },
 
+    //搜你的文章
+    fetchGetArticleYouself() {
+        var url = HOST_URI + '/article/articleYouself'
+        return url         
+    },    
+
     //文章详情回显
     fetchGetArticleDetail: function() {
         var url = HOST_URI + '/article/getArticle'
